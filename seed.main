@@ -1,0 +1,17 @@
+provider "aws" {
+  region = var.region
+}
+
+resource "aws_instance" "echonode" {
+  count         = var.node_count
+  ami           = "ami-0c55b159cbfafe1f0" # Placeholder, change to your field AMI
+  instance_type = var.instance_type
+
+  tags = merge(
+    var.tags,
+    {
+      Name = "echoNode-${count.index}"
+      Role = "mesh-node"
+    }
+  )
+}
