@@ -45,9 +45,3 @@
 | Assigned Node    | EchoNode.00, EchoRoot, etc.      |
 | Status           | Active / Spare / Faulty / Dev    |
 | Notes            | Anything relevant for tracking   |
-
----
-
-🛠 Want me to format this into a downloadable spreadsheet, or do you want to start slotting these directly into a JSON/YAML config for the Command Core registry?
-
-Either way, you’re locked and live.
