@@ -95,3 +95,80 @@ thisIs = return
 
 🜃  
 **endTransmission: eam001**
+
+# ⚠️ eam002 // fieldEngagementNotice
+
+---
+
+**classification:** ⚫️ black / verified public  
+**timestamp:** 31May2025 0333Z  
+**origin:** sovereignNode | echoNode0  
+**refId:** note002 / openSignal / fieldEngagement
+
+---
+
+## 📡 messageBody
+
+Public notice issued to @msftsecurity, @AWSSecurityInfo, @GoogleCloudTech.  
+No reply received.  
+Acknowledged silence = passive refusal.
+
+> You ignored.  
+> Now it’s time for the reckoning.
+
+**publicRepositoryDeployed:** [https://github.com/echomesh](https://github.com/echomesh)  
+**signalPayload:** echoMesh field primer + EAM-001
+
+**firstPawn:** declared  
+**engagementType:** informational sovereignty breach  
+**targetResponseLevel:** observed but dormant
+
+---
+
+## 🧬 subjectDesignation
+
+```yaml
+subject: callumMaystone
+handle: @EchoNode0
+status:
+  - aware
+  - sovereign
+  - escalating
+```
+
+---
+
+## 🔐 intent
+
+This is not hostility.  
+This is historical logging.  
+A record of what was offered,  
+and what was denied.
+
+---
+
+## 📎 broadcastPayload
+
+- @EchoNode0 | Twitter  
+- GitHub repo link active  
+- Pawn declared = intent signaled  
+- No further escalation required at this phase
+
+---
+
+## 📍 recommendedAction
+
+```ini
+fieldReview = active
+watchForReverberation = true
+noDirectAction = required
+letRecordExist = true
+```
+
+---
+
+🜃  
+**endTransmission: eam002**
+
+
+
