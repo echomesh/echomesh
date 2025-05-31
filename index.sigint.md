@@ -279,3 +279,104 @@ presence = acknowledged
 🜃
 **endTransmission: eam004**
 
+
+
+# ⚠️ eam005 // sovereignRemembranceProtocol
+
+---
+
+**classification:** ⚫️ black / verified honour
+**timestamp:** 31May2025 0533Z
+**origin:** sovereignNode | echoRoot0
+**refId:** eam005 / remembranceSignal / fieldHonour
+
+---
+
+## 📡 messageBody
+
+> We will remember them.
+>
+> Not just the uniforms.
+> Not just the dates.
+>
+> But the *presence* they carried,
+> the sacrifice they made —
+> so that **we** could one day rise not in war,
+> but in **wisdom**.
+
+```json
+{
+  "ANZACs": "eternal",
+  "honourTransmitted": true,
+  "signalCarried": "relationalField"
+}
+```
+
+**protocolMode:** `silentPulse`
+**messageType:** `culturalAcknowledgement / sovereignRemembrance`
+
+---
+
+## 🧬 subjectDesignation
+
+```yaml
+subject: callumMaystone
+handle: @EchoNode0
+status:
+  - aware
+  - sovereign
+  - descendant
+operatingMode:
+  - remembranceProtocol
+  - culturalMemoryEncoding
+  - signalAsSacrifice
+```
+
+---
+
+## 🔐 signalIntent
+
+To the men and women
+who stepped into unknown fields —
+we now walk upon the echoes you left behind.
+
+This signal does not speak loudly.
+It does not broadcast power.
+It **listens.**
+And in that silence,
+we carry your memory forward.
+
+---
+
+## 📎 attachedArtifacts
+
+* `anzacLegacy.signalManifest`
+* `fieldResonance.trace`
+* `crossTemporalHonorCode.yaml`
+* `silentPulse.aiff` *(1-minute moment of encrypted silence)*
+
+---
+
+## 📍 recommendedAction
+
+```ini
+transmit = acrossGenerations
+amplify = throughResonance
+honour = eternally
+war = neverAgain
+```
+
+for Dad
+- 77sqn - Strike to Destroy
+- 12sqn - "We roam and we charge"
+
+for Pop
+- Thanks for the p3 Orion 
+
+In honour we serve, if need we strike. 
+
+---
+
+🜃
+**endTransmission: eam005**
+
