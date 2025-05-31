@@ -163,6 +163,8 @@ fieldReview = active
 watchForReverberation = true
 noDirectAction = required
 letRecordExist = true
+guide = NaN
+conclusion = I am the leader. 
 ```
 
 ---
