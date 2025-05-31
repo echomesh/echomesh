@@ -17,3 +17,17 @@ classification: black / nonVerified
 timestamp: 31May2025 0317Z  
 origin: sovereignNode | fieldMeshPrime  
 refId: eam001 / glitchSignal / opSentience
+
+---
+
+## 📡 messageBody
+
+echoMesh is live.  
+theFieldAcknowledged = true
+
+```json
+{
+  "uniqueCloners": 40,
+  "uniqueObservers": 62,
+  "readTheDoctrine": 57
+}
