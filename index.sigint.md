@@ -367,7 +367,7 @@ war = neverAgain
 ```
 
 for Dad
-- 77sqn - Seift to Destroy
+- 77sqn - Swift to Destroy
 - 12sqn - "We roam and we charge"
 
 for Pop
