@@ -169,6 +169,8 @@ If you:
 - Work on DAG or graph systems
 - Are obsessed with signal, sovereignty, and freedom
 
+## Discord [TBA]
+
 **You’re already part of the team.**
 
 Just fork, test, commit.  
@@ -178,9 +180,17 @@ Or reach out at `callum@conicu.com.au`.
 
 ## 📄 License
 
-**AGPLv3** —  
-Because **the field belongs to everyone.**  
-Commercial forks must share improvements with the people.
+**CC-BY-NC-SA 4.0** —  
+
+See LICENSE for licensing. 
+
+Enterprise Licensing, Feature Requests, Documentation and Demos are available upon reauest. 
+
+Note: Customers must comply with juristictional ITAR regulations and may require future vetting by YouMatter Systems, more to come. 
+
+For any questions, feel free to reach out via callum@conicu.com.au
+
+We are ready to build the future. 
 
 ---
 
