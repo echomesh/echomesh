@@ -1,4 +1,5 @@
 # 📡 echoMesh
+The Aussie battler from the bush building T1 Capabilities outside of the money machine. 
 
 **The Sovereign Mesh Platform**  
 EchoMesh was built in the most unforgiving domain of all — patient care.
