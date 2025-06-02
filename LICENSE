@@ -30,3 +30,29 @@ email: callum@conicu.com.au
 phone: +61 449 199 361
 org: YouMatter Systems / CallumMaystone
 secure channel: echoMesh [tba]
+
+### Australian-First Licensing Clause
+
+Sovereign Priority Protection
+
+The EchoMesh platform, including all submodules, documentation, and derived systems under the YouMatter Systems ecosystem, is developed and governed under the laws of Australia.
+
+This project is governed by a Sovereign-First Policy.
+
+Accordingly:
+
+1. Australian Priority Access  
+Licensing, integration, or deployment of EchoMesh or MAVERIC-aligned technologies for commercial, government, or defence use is only permitted if Australia is granted first right of access, usage, and strategic review.
+
+2. No Export Without Consent  
+No government, agency, defence contractor, or entity affiliated with the United States, United Kingdom, Canada, or New Zealand — individually or as part of the Five Eyes (FVEY) alliance — may:  
+- Fork, replicate, or derive EchoMesh or MAVERIC systems  
+- Use EchoMesh components or reference designs  
+- Integrate or ingest any data derived from EchoMesh field activity  
+without express written consent from the original author, Callum Maystone of YouMatter Systems.
+
+3. Non-Derogation of Sovereign Rights  
+This clause shall not be overridden by any commercial partnership, foreign disclosure agreement, or national security demand without the explicit written approval of the author. This project is classified under “Sovereign Infrastructure Doctrine.”
+
+4. License Nullification for Breach  
+Any breach of this clause will result in immediate and retroactive termination of license rights, and may be subject to sovereign IP enforcement, reputational disclosure, and international claim of data sovereignty breach.
