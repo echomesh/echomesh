@@ -1,3 +1,9 @@
+// EchoMesh Field Note 002 – Passive GPIO Field Resonance Detection
+// Author: Callum Maystone
+// Source: https://github.com/echomesh/echomesh
+//
+// This sketch detects ambient EM interaction on GPIO26 from LoRa device presence.
+// It reflects field presence without requiring transmission.
 #include <Arduino.h>
 #include <SPI.h>
 
