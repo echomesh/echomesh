@@ -70,3 +70,141 @@
 * Develop modular enclosure schema (magnet or clip-in preferred)
 * Finalise registry format: `device.json`
 
+
+---
+
+## 🧬 **echoMesh Protocol Extension**
+
+### 🔁 **Startup Modes**
+
+| Mode              | Behavior                                                         | Use Case                                  |
+| ----------------- | ---------------------------------------------------------------- | ----------------------------------------- |
+| `Active Startup`  | Broadcasts presence to all nearby nodes via echoPing             | Field deployment, new mesh introduction   |
+| `Passive Startup` | Listens silently for existing echoMesh packets before responding | Stealth rejoin, low-power or silent nodes |
+
+#### Startup Sequence (Passive Preferred Default)
+
+```
+1. Listen (timeout configurable, e.g., 5000ms)
+2. If no packets heard → Broadcast `echoMesh::initRequest`
+3. If packets heard → Respond to nearest affinity group (see below)
+```
+
+---
+
+### 🌐 **Sequence Timing Logic**
+
+```mermaid
+sequenceDiagram
+    participant NodeA
+    participant NodeB
+    participant CommandPi
+    Note over NodeA, NodeB: Time unit = ms, derived from `syncTime` field
+
+    NodeA->>NodeB: [T+0ms] echoMesh::initRequest
+    NodeB-->>NodeA: [T+10ms] echoMesh::initAck (with trust proof)
+    NodeA->>CommandPi: [T+15ms] syncState(request DAG + trust cache)
+    CommandPi-->>NodeA: [T+25ms] DAG proof, Host List
+
+    NodeA-->>NodeB: [T+40ms] echoMesh::hello {PID, Affinity, WalletSig}
+```
+
+---
+
+### 🔒 **Federated Trust Host Cache (Wallet Model)**
+
+```json
+{
+  "known_hosts": {
+    "ab53f9...": {
+      "name": "Echo-Ranger",
+      "last_seen": "2025-06-03T01:02:00Z",
+      "affinity_score": 0.92,
+      "trust_state": "trusted",
+      "capabilities": ["lora.tx", "sensor.temp", "dag.root"]
+    },
+    "93df22...": {
+      "name": "Ghost-Ping",
+      "last_seen": "2025-05-29T23:00:00Z",
+      "trust_state": "revoked"
+    }
+  }
+}
+```
+
+---
+
+### 💠 **Node Routing by Affinity**
+
+When routing packets:
+
+* Choose path with:
+
+  * ✅ Higher trust score
+  * ✅ DAG-backed signature (wallet verified)
+  * ✅ Proximity or lower latency (if signal strength available)
+* Use `Affinity Routing Table (ART)` locally:
+
+```json
+{
+  "routes": [
+    {
+      "target": "CommandPi",
+      "via": "Echo-Ranger",
+      "trust": 0.92,
+      "latency": 18,
+      "preferred": true
+    },
+    {
+      "target": "CommandPi",
+      "via": "Fallback-Ghost",
+      "trust": 0.65,
+      "latency": 29,
+      "preferred": false
+    }
+  ]
+}
+```
+
+---
+
+### 👋 **Optional Goodbye Sequence**
+
+If a node is decommissioned or forcibly leaving:
+
+```json
+{
+  "type": "echoMesh::goodbye",
+  "pid": "b34f0a...",
+  "reason": "manual_shutdown | degraded | compromise_suspected"
+}
+```
+
+Receiving nodes:
+
+* ✅ Mark `last_seen` time
+* ❌ Revoke live routing paths
+* Optionally flag node for **trust review**
+
+---
+
+### 📘 **GitHub Documentation Notes**
+
+You can drop these directly into `README.md` or `.md` files using triple backticks:
+
+````
+```mermaid
+sequenceDiagram
+    ...
+```
+````
+
+---
+
+This spec now covers:
+
+* Cold boot presence awareness
+* Trust-managed sequencing
+* DAG-federated access
+* Mesh restoration with affinity-persistence
+
