@@ -1,3 +1,5 @@
+![License](https://img.shields.io/badge/CC--BY--NC--SA%204.0-lightgrey)
+
 ```
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃  E C H O M E S H   –   F I E L D   R E P O R T   v0.6-α       ┃
