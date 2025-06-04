@@ -1,5 +1,8 @@
 ![License](https://img.shields.io/badge/CC--BY--NC--SA%204.0-lightgrey)
 
+<img src="https://github.com/user-attachments/assets/77623aa2-5930-45ec-87ae-1c2cd0e2533c" width="100" height="100" alt="image"/>
+
+
 ```
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃  E C H O M E S H   –   F I E L D   R E P O R T   v0.6-α       ┃
