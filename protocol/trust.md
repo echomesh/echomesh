@@ -1,3 +1,42 @@
+## 🔐 Appendix: ActiveTrust – The EchoMesh Trust Framework
+
+> **Trust, how it’s meant to be.**  
+> A protocol for presence, a framework for consent, and a new foundation for access.
+
+---
+
+### 📘 What is ActiveTrust?
+
+ActiveTrust is a lightweight, self-sovereign protocol for **signing intent**, **verifying consent**, and **enabling access** based on real-world alignment—not static roles.
+
+Where other systems ask:  
+> *“Who are you?”*  
+ActiveTrust asks:  
+> *“How did you show up?”*
+
+---
+
+### 🧠 Core Principles
+
+| Principle             | Description                                                                 |
+|-----------------------|-----------------------------------------------------------------------------|
+| **Sovereignty First** | You own your access. You decide your exposure.                              |
+| **Proof > Profile**   | What you prove in presence matters more than what your profile says.        |
+| **Coherence > Control** | Access emerges through alignment—not hierarchy.                          |
+
+---
+
+### 🧬 Protocol Flow
+
+```mermaid
+graph TD
+    A[Page Load] --> B{Valid Token?}
+    B -- Yes --> C[Allow Access]
+    B -- No --> D[Redirect to Wallet Signature]
+    D --> E{Valid Signature?}
+    E -- Yes --> F[Generate TTL Token + Grant Access]
+    E -- No --> G[Access Denied]
+```
 
 ### 📦 Trust Stack
 
