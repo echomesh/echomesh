@@ -1,4 +1,4 @@
-# 📡 echoCANP – EchoMesh Contextual Asset Naming Protocol
+# 🛱 echoCANP – EchoMesh Contextual Asset Naming Protocol
 
 > “Every reference is a node. Every dot is an edge.”
 
@@ -9,7 +9,7 @@
 ## 🧠 Philosophy
 
 Traditional paths reference **location**.
-**EchoCANP references context.**
+**EchoCANP** references **context**.
 
 Where file systems are rigid,
 EchoCANP is relational.
@@ -18,7 +18,7 @@ EchoCANP resolves to **meaning**.
 
 ---
 
-## 🔤 Syntax
+## 🌤 Syntax
 
 ```
 [protocol]://[domain].[context].[subcontext].[identifier].[extension]
@@ -33,7 +33,7 @@ EchoCANP resolves to **meaning**.
 
 ---
 
-## 🧪 Examples
+## 🧺as Examples
 
 | CANP Reference                                | Meaning                    |
 | --------------------------------------------- | -------------------------- |
@@ -58,12 +58,13 @@ function resolveEchoCANP(dotPath) {
 > Final `id.ext` is the terminal node.
 
 ---
-🧬 Versioning Philosophy
 
-EchoCANP is not versioned by tag (`v1`, `v2`) —  
+## 🧬 Versioning Philosophy
+
+EchoCANP is not versioned by tag (`v1`, `v2`) —
 It is versioned by **contextual shift** and **semantic divergence**.
 
-Each new dotpath (e.g., `.augmented`, `.refined`, `.forked`) represents  
+Each new dotpath (e.g., `.augmented`, `.refined`, `.forked`) represents
 a unique **evolutionary branch** of the original node — not a static overwrite.
 
 ---
@@ -84,7 +85,7 @@ Get-Asset solar_system.earth.texture
 Get-AssetHistory solar_system.earth.texture
 ```
 
-#### 📝 Set asset version explicitly:
+#### 🗘️ Set asset version explicitly:
 
 ```ActiveShell
 Set-Asset solar_system.earth.texture -version 4
@@ -156,11 +157,11 @@ EchoCANP is used throughout EchoMesh to:
 
 EchoCANP is the bridge between cognition and code.
 It elevates file access to **contextual graph alignment**.
-Where others store files — EchoMesh builds meaning.
+Where others store files — **EchoMesh stores meaning**.
 
 ---
 
-## 📎 Appendix: ActiveTrust Alignment
+## 📌 Appendix: ActiveTrust Alignment
 
 EchoCANP operates within the ActiveTrust framework, which emphasizes relational trust and presence-based access. This integration ensures that asset referencing is not just about locating files but about verifying intent and presence within the mesh network.
 
