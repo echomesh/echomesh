@@ -2,36 +2,19 @@
 
 > “Every reference is a node. Every dot is an edge.”
 
-`echoCANP` defines a semantic, graph‑driven asset‑resolution model used by **EchoMesh** to reference files, functions, and nodes contextually — across both physical and abstract systems.
+`echoCANP` defines a semantic, graph-driven asset resolution model used by EchoMesh to reference files, functions, and nodes contextually — across both physical and abstract systems.
 
 ---
 
 ## 🧠 Philosophy
 
 Traditional paths reference **location**.
-**EchoCANP** references **context**.
+**EchoCANP references context.**
 
-Where file systems are rigid, EchoCANP is **relational**.
-Where URLs resolve to servers, EchoCANP resolves to **meaning**.
-
----
-
-### 🧠 Identity Principles (EchoMesh Canonical Pairs)
-
-ActiveTrust expresses access through **relational primitives**:
-
-| **Pair**                 | **Meaning**                                                                        |
-| ------------------------ | ---------------------------------------------------------------------------------- |
-| **Intent / Presence**    | *Intent* is signed; *Presence* is verified. Together they form the consent moment. |
-| **Input / Output**       | Trust is transactional — signals are both sent **and** received.                   |
-| **Request / Response**   | Every access starts with a question and ends with mutual agreement.                |
-| **Inlet / Outlet**       | Nodes open to trust (**inlet**) or express signals (**outlet**).                   |
-| **Signal / Trace**       | Presence is ephemeral; trust is **logged** as an immutable trace.                  |
-| **Anchor / Propagate**   | *Anchor* captures the moment; *Propagate* distributes the state.                   |
-| **Proof / Consent**      | Proof validates identity; Consent enables access.                                  |
-| **Coherence / Autonomy** | Trust is contextual, not controlling. Autonomy remains sovereign.                  |
-
-> **ActiveTrust is not a switch. It’s a handshake.**
+Where file systems are rigid,
+EchoCANP is relational.
+Where URLs resolve to servers,
+EchoCANP resolves to **meaning**.
 
 ---
 
@@ -41,56 +24,54 @@ ActiveTrust expresses access through **relational primitives**:
 [protocol]://[domain].[context].[subcontext].[identifier].[extension]
 ```
 
-* **`protocol`** – Governs routing & behaviour (e.g. `echo`, `ptsd`, `dag`)
-* **`domain`** – Root context (e.g. `assets`, `nodes`, `finance`)
-* **`context`** – Category of intent or function
-* **`subcontext`** – Specific use or scenario
-* **`identifier`** – Asset or command node
-* **`extension`** – File type or execution signature
+* `protocol` → Governs routing and behavior (e.g., `echo`, `dag`)
+* `domain` → Root context (e.g., `assets`, `nodes`)
+* `context` → Category of intent or function
+* `subcontext` → Specific use or scenario
+* `identifier` → Asset or command node
+* `extension` → File type or resolution signature
 
 ---
 
 ## 🧪 Examples
 
-| CANP Reference                                | Meaning                                                 |
-| --------------------------------------------- | ------------------------------------------------------- |
-| `ptsd://action.name/instructions`             | Protocol‑triggered response                             |
-| `cptsd://cover.your/ass`                      | Self‑preservation fallback                              |
-| `https://finance.google.com.au`               | Traditional domain, interpretable as CANP‑style dotpath |
-| `dag://assets.solar_system.earth.texture.jpg` | DAG‑signed visual asset for Earth                       |
-| `echo://nodes.esp32.lora.presence.init.json`  | Presence‑packet blueprint                               |
+| CANP Reference                                | Meaning                    |
+| --------------------------------------------- | -------------------------- |
+| `dag://assets.solar_system.earth.texture.jpg` | DAG-signed asset reference |
+| `echo://nodes.esp32.lora.presence.init.json`  | Presence packet structure  |
 
 ---
 
 ## 📦 Resolution Logic
 
-```js
+```javascript
 function resolveEchoCANP(dotPath) {
   const parts = dotPath.split('.');
-  const ext   = parts.pop();     // file extension
-  const id    = parts.pop();     // identifier / filename
-  const path  = parts.join('/'); // remaining context → folder path
+  const ext = parts.pop();
+  const id = parts.pop();
+  const path = parts.join('/');
   return `${path}/${id}.${ext}`;
 }
 ```
 
-> Each `.` is interpreted as a **graph edge**.
-> The final `id.ext` is the **terminal node**.
+> Interprets each `.` as a graph edge.
+> Final `id.ext` is the terminal node.
 
 ---
 
 ## 🧬 Versioning Philosophy
 
-EchoCANP is **not** versioned by tags (`v1`, `v2`).
-It versions by **contextual shift**.
+EchoCANP is not versioned by tag (`v1`, `v2`) —
+It’s versioned by **contextual shift**.
 
-Each new dotpath (e.g. `.augmented`, `.refined`, `.forked`) represents an emergent, semantically distinct branch in the graph.
+Each new dotpath (e.g., `.augmented`, `.refined`, `.forked`)
+represents an emergent, semantically distinct branch.
 
 ---
 
 ## 🧠 Mesh Integration
 
-EchoCANP powers EchoMesh to:
+EchoCANP is used throughout EchoMesh to:
 
 * Reference node blueprints
 * Load asset dependencies
@@ -110,8 +91,6 @@ EchoCANP powers EchoMesh to:
       "affinity_scope": "field.rendering",
       "verified": true,
       "version": "initial",
-      "ttl": 3600,
-      "trust_signature": "dag://auth.root.echo",
       "source": "CommandPi"
     }
   }
@@ -122,12 +101,12 @@ EchoCANP powers EchoMesh to:
 
 ## 🛠 Future Extensions
 
-| Feature                | Description                                   |
-| ---------------------- | --------------------------------------------- |
-| `canp://` handler      | Browser / plugin protocol registration        |
-| `CANPManifest.json`    | Per‑asset lineage & trust chain               |
-| **EchoCANP Explorer**  | UI to parse, resolve & visualise CANP graphs  |
-| Graph lineage tracking | Enables inheritance, forks & ancestry mapping |
+| Feature                  | Description                                          |
+| ------------------------ | ---------------------------------------------------- |
+| `canp://` handler        | Protocol registration for browser/plugin support     |
+| `CANPManifest.json`      | Per-asset lineage and trust chain                    |
+| `EchoCANP Explorer`      | UI tool to parse, resolve, and visualize CANP graphs |
+| `Graph lineage tracking` | Enables inheritance, forks, and ancestry mapping     |
 
 ---
 
@@ -135,11 +114,33 @@ EchoCANP powers EchoMesh to:
 
 EchoCANP is the bridge between cognition and code.
 It elevates file access to **contextual graph alignment**.
-Others store files. **EchoMesh stores meaning.**
+Where others store files — EchoMesh builds meaning.
+
+---
+
+## 📎 Appendix: ActiveTrust Alignment
+
+EchoCANP operates within the ActiveTrust framework, which emphasizes relational trust and presence-based access. This integration ensures that asset referencing is not just about locating files but about verifying intent and presence within the mesh network.
+
+### 🔐 Identity Principles (EchoMesh Canonical Pairs)
+
+ActiveTrust redefines access through relational primitives:
+
+| **Pair**                 | **Meaning**                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------- |
+| **Intent / Presence**    | Intent is signed. Presence is verified. Together, they form the consent moment. |
+| **Input / Output**       | Trust is transactional — signals are both sent and received.                    |
+| **Request / Response**   | Every access starts with a question and ends with mutual agreement.             |
+| **Inlet / Outlet**       | Nodes open to trust (inlet) or express signals (outlet).                        |
+| **Signal / Trace**       | Presence is ephemeral. Trust is logged.                                         |
+| **Anchor / Propagate**   | Anchor a moment. Propagate a state.                                             |
+| **Proof / Consent**      | Proof validates identity; Consent enables access.                               |
+| **Coherence / Autonomy** | Trust is contextual, not controlling. Autonomy remains sovereign.               |
+
+> **ActiveTrust is not a switch. It’s a handshake.**
 
 ---
 
 **Authored by:**
-*Callum Maystone* – *Architect of Emergence • Creator of Relational Intelligence*
-
-Ready to run RegEdit.exe on reality with Domain Admin creds... I think I've shown I'm capable. 
+Callum Maystone
+*Architect of Emergence • Creator of Relational Intelligence*
