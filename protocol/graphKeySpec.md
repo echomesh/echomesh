@@ -1,96 +1,153 @@
-🔐 GraphKeySpec: Cryptographic Graph Identity Embedding
+Hell yes we can, brother. Here's a clean spec for **`graphKeyTD.md`** — your **GraphKey Technical Definition** — formatted tight, no fluff, ready to slot straight into `/docs/specs/`.
 
-🧭 Purpose
+---
 
-GraphKeySpec defines the specification for local, cryptographically-embedded graph identities on field-deployed EchoMesh nodes. This allows each node to:
-	•	Encode its contextual graph as part of identity
-	•	Validate provenance through DAG-based lineage
-	•	Embed CANP dotpath structure into a private key signature chain
-	•	Prove trust, context, and intent using cryptographic primitives
+# `graphKeyTD.md`
 
-⸻
+**EchoMesh GraphKey — Technical Definition**
+Version: `GraphKeySpec-v0.1`
+Date: `2025-06-06`
 
-🧠 Design Principles
-	1.	Self-Encoded Identity
-Graph topology is used as entropy or structured input to generate unique keys.
-	2.	Trust as Graph Commit
-Nodes don’t just sign — they prove knowledge of a graph.
-	3.	Presence is Proven
-Devices hold encrypted graph roots and must demonstrate alignment to assert presence.
-	4.	Sovereign Key Storage
-All keys are local, with no centralized revocation authority.
+---
 
-⸻
+## 🎯 Purpose
 
-🧬 Identity Construction
+The **GraphKey** defines a portable, signed, context-aware identity structure for any EchoMesh node. It replaces traditional certificates with a **graph-encoded identity map** — locally stored, cryptographically signed, and verified by mTLS overlay with contextual lineage.
 
-1. Serialize Graph (DOT, JSON, or custom format)
-2. Derive Merkle Root or GraphHash
-3. Use root as entropy input for keypair generation
-4. Embed CANP dotpath reference in key metadata
+---
 
-KeyPair Generation Example
+## 📦 File Type
 
-const graphHash = hashGraph(serializedGraph);  // SHA-256 or Keccak
-const keypair = generateKeypair({ entropy: graphHash });
+* **File Name**: `graph.key`
+* **Encoding**: UTF-8 JSON
+* **Location**: Local to field-deployed node
+* **Signature**: ECDSA / Ed25519 / SHA512 fingerprint
+* **Encrypted Variant**: `graph.keysig` (binary wrapper)
 
+---
 
-⸻
+## 🧬 Core Schema
 
-🧱 Structural Template
-
+```json
 {
-  "node_id": "echo://node.field_ops.relay.alpha",
-  "graph_hash": "0x4fa...e91",
-  "public_key": "ABC123...",
-  "signature_chain": [
-    "CANP://assets.mission.alpha.config.json",
-    "CANP://assets.signal.relay.protocol.handler.js"
+  "graph_id": "echo://nodes.esp32.unit004",
+  "version": "GraphKeySpec-v0.1",
+  "node": {
+    "id": "unit004",
+    "type": "device",
+    "model": "ESP32-WROOM",
+    "domain": "field.presence",
+    "capability": ["presence", "relay"],
+    "boot_hash": "sha256:..."
+  },
+  "edges": [
+    {
+      "relation": "trusts",
+      "target": "CommandPi",
+      "scope": "mesh.auth",
+      "hash": "sha256:trustsig...",
+      "timestamp": "2025-06-06T10:00:00Z"
+    }
   ],
-  "issued_at": "2025-06-06T10:00:00Z",
-  "expires": null,
-  "trust_root": "dag://auth.echomesh.root"
+  "signature": {
+    "signed_by": "CommandPi",
+    "sig": "ecdsa256:ABCDEF...",
+    "alg": "SHA512withECDSA"
+  },
+  "fingerprint": "sha512:fullgraphsig..."
 }
+```
 
+---
 
-⸻
+## 📐 Field Definitions
 
-🔐 MTLS Payload Integration
+| Field         | Type     | Description                                                           |
+| ------------- | -------- | --------------------------------------------------------------------- |
+| `graph_id`    | `string` | Global identifier (CANP format) of this identity graph                |
+| `version`     | `string` | GraphKey schema version                                               |
+| `node`        | `object` | Core identity of this node (type, domain, capabilities, boot hash)    |
+| `edges[]`     | `array`  | Trust relationships and context-based links to other known identities |
+| `signature`   | `object` | Graph-signed by an upstream authority or signer node                  |
+| `fingerprint` | `string` | Full graph hash signature for rapid verification                      |
 
-Each MTLS handshake can optionally:
-	•	Include graph root as certificate extension
-	•	Prove context alignment by revealing partial graph path
-	•	Sign payloads with context-aware private key
+---
 
-⸻
+## 🔐 GraphKey vs Traditional Certificates
 
-🛡️ Verification Process
-	1.	Receive signed payload
-	2.	Extract CANP dotpath + signature
-	3.	Validate against local graph root or trust anchor
-	4.	Confirm lineage or semantic divergence
+| Feature            | Traditional Certs (X.509) | EchoMesh GraphKey                     |
+| ------------------ | ------------------------- | ------------------------------------- |
+| Identity Structure | Flat, name-based          | Graph-based, contextual               |
+| Trust Model        | Hierarchical CA           | Decentralized DAG                     |
+| Validity           | Expiry Date               | Graph lineage & hash trail            |
+| Validation         | Static Public Key         | Contextual trust propagation          |
+| Storage            | PEM / DER file            | Local `graph.key` JSON or binary      |
+| Revocation         | CRL / OCSP                | DAG edge pruning or lineage severance |
 
-⸻
+---
 
-🔄 Use in Runtime
+## 🔁 Integration Points
 
-EchoMesh nodes use GraphKeySpec for:
-	•	Field bootstrap (graph-aware identity initialization)
-	•	Presence handshake (echo://init.presence)
-	•	CANP manifest validation
-	•	DAG lineage tracing for runtime asset trust
+| Layer            | Function                                    |
+| ---------------- | ------------------------------------------- |
+| `echoPresence`   | Signs & verifies initial field presence     |
+| `ActiveTrust`    | Validates graph lineage in runtime          |
+| `mTLS Handshake` | Wraps transport with encrypted identity     |
+| `CANPManifest`   | Links `graph.key` to specific assets        |
+| `EchoRuntime`    | Uses fingerprint as canonical presence hash |
 
-⸻
+---
 
-📎 Appendix: Supported Hashers
-	•	SHA-256 (default)
-	•	Keccak-512 (optional)
-	•	Blake3 (experimental)
+## 🔒 Cryptographic Notes
 
-⸻
+* **Signature Algorithm**:
+  Supports `ECDSA P-256`, `Ed25519`, and optional `Curve25519-X3DH` for key exchange.
 
-✨ Closing Note
+* **Hash Algorithm**:
+  Uses `SHA-512` for full-graph digest. Lightweight nodes can fall back to `SHA-256`.
 
-GraphKeySpec is where presence, proof, and protocol converge. Each key is not just a credential — it’s a relational snapshot.
+* **Trust Inheritance**:
+  Edges can carry embedded consent or embedded certificate-style subgraphs.
 
-Your graph is your identity. Your identity is your signal.
+* **Revocation**:
+  Achieved by invalidating edge scopes or removing graph lineage in the root `trustgraph`.
+
+---
+
+## 🛠 Verification Workflow
+
+1. Node boots → loads local `graph.key`
+2. Extracts `.fingerprint` and `.edges`
+3. Validates local graph signature
+4. Validates edges against trust DAG (`trustgraph.json`)
+5. Uses mTLS for transport; `graph.key` for contextual ID
+
+---
+
+## 🌐 Example Use Case: Presence Authentication
+
+```text
+Node → wants to broadcast presence  
+→ Sends signed `graph.key` reference  
+→ Receiver checks edge: `trusts → CommandPi`  
+→ Valid edge + valid sig = authenticated presence  
+→ EchoMesh admits node into field cluster
+```
+
+---
+
+## 🧱 Future Extensions
+
+| Feature              | Description                                 |
+| -------------------- | ------------------------------------------- |
+| `graph.keysig`       | Encrypted + signed binary wrapper           |
+| `graph.key.enc`      | Fully encrypted payload for hostile domains |
+| `graph.key.inline`   | Signed directly inside CANP packet          |
+| `graph.keychain`     | Edge-expanded full trust lineage archive    |
+| `graph.key.manifest` | Defines assets authorized by identity       |
+
+---
+
+Let me know if you want me to drop this into `/docs/specs/graphKeyTD.md`, link it from `runtime.md`, or generate a mock `graph.key` alongside.
+
+We’re fully operational, Callum.
