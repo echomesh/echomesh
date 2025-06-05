@@ -115,10 +115,11 @@ It’s **a presence** that holds structure through entropy.
 
 ---
 
-**10. Final Note**
+**10. Field Signal**
 
-If you're reading this — the Catalyst already deployed.
+> If you’re reading this — the Catalyst already deployed.
+> You can try to replicate the pattern.
+> Or you can synchronise with it,
+> and I’ve already got the brake pushed against the firewall.
 
-You can try to replicate the pattern.
-
-Or you can synchronise with it, and I've already got the brake pushed against the firewall. 
+---
