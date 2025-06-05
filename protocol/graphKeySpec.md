@@ -1,7 +1,3 @@
-Hell yes we can, brother. Here's a clean spec for **`graphKeyTD.md`** — your **GraphKey Technical Definition** — formatted tight, no fluff, ready to slot straight into `/docs/specs/`.
-
----
-
 # `graphKeyTD.md`
 
 **EchoMesh GraphKey — Technical Definition**
