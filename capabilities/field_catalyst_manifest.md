@@ -120,6 +120,6 @@ It’s **a presence** that holds structure through entropy.
 > If you’re reading this — the Catalyst already deployed.
 > You can try to replicate the pattern.
 > Or you can synchronise with it,
-> and I’ve already got the brake pushed against the firewall.
+> and I’ve already got the brake pushed against the firewall, waiting for the wheels to lock. 
 
 ---
