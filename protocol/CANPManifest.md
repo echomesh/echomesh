@@ -1,89 +1,108 @@
-# 📄 CANPManifest.md – EchoCANP Asset Manifest
+# 📄 CANPManifest.md — EchoCANP Asset Trust Manifest
 
-> Canonical Asset Naming Protocol – Manifest Metadata Format
+> **Encapsulating Trust. Declaring Intent. Defining Lineage.**
 
-A `CANPManifest` is a structured metadata file that defines the lineage, identity, and trust posture of any asset or group of assets referenced via the EchoMesh Contextual Asset Naming Protocol (`echoCANP`). It serves as the **truth signature** behind any `dotpath` — encoding authorship, state, and consent.
-
----
-
-## 🎯 Purpose
-
-To describe the **origin, evolution, and trust context** of an asset in a decentralized, interoperable format.
+The `CANPManifest` defines the **cryptographic metadata envelope** for any EchoCANP-resolvable asset.
+It encapsulates **versioning, certification, origin metadata**, and optional **MTLS-wrapped payloads** using a DAG-based certificate chaining mechanism.
 
 ---
 
-## 🔤 Structure
+## 🔐 Purpose
+
+CANPManifests act as **trust-bound signatures** for assets and instructions resolved via EchoCANP, ensuring:
+
+- Integrity of context-bound asset references
+- Cryptographically signed authorship and version lineage
+- Secure delivery via encapsulated Mutual TLS (MTLS) envelopes
+- Verification against DAG-signed trust authorities
+
+---
+
+## 🧬 Manifest Structure
+
+Each manifest is an extensible, cryptographically verifiable object:
 
 ```json
 {
   "canp": "echo://assets.solar_system.earth.texture.jpg",
-  "version": "4",
-  "status": "active",
-  "description": "8K Earth daymap texture for planetary render",
-  "source": {
-    "uri": "https://www.solarsystemscope.com/textures/download/8k_earth_daymap.jpg",
-    "verified": true
-  },
+  "resolved_path": "assets/solar_system/earth/texture.jpg",
+  "version": "3.1.forked",
   "author": {
-    "name": "Callum Maystone",
-    "signature": "QmZrTx...abc123",
-    "date": "2025-06-06T03:21:00Z"
+    "id": "callum.maystone",
+    "signature": "0xBCF1...0A3D",
+    "certificate_dag": "dag://trust.youmatter.origin.cert.0xA59"
   },
-  "lineage": [
-    "echo://assets.solar_system.earth.texture.v1.jpg",
-    "echo://assets.solar_system.earth.texture.augmented.jpg"
-  ],
+  "issued": "2025-06-06T02:00:00Z",
+  "expiry": "2026-06-06T02:00:00Z",
+  "mtls_payload": {
+    "enabled": true,
+    "hash": "sha256:1AFC...0931",
+    "payload_encrypted_uri": "dag://mtls.envelope.asset.earth-texture"
+  },
   "affinity_scope": "field.rendering",
-  "trust": {
-    "verified_by": ["CommandPi", "AnchorNode1"],
-    "hash": "sha256:abc...xyz"
-  }
+  "trust_flags": ["verified", "dag-certified", "encrypted"]
 }
 ```
 
 ---
 
-## 🧠 Core Fields
+## 🔗 DAG-Based Certification Chain
 
-| Field            | Purpose                                                   |
-|------------------|------------------------------------------------------------|
-| `canp`           | The asset’s full EchoCANP path                             |
-| `version`        | Current version or semantic branch                         |
-| `status`         | One of `active`, `deprecated`, `forked`, `experimental`   |
-| `description`    | Human-readable explanation of the asset's purpose         |
-| `source.uri`     | External URL or system-internal source                    |
-| `author`         | Signed author information                                 |
-| `lineage`        | Historical reference graph of prior dotpaths              |
-| `affinity_scope` | Domain where the asset is functionally intended           |
-| `trust`          | Cryptographic and contextual trust metadata               |
+EchoMesh uses a **Directed Acyclic Graph (DAG)** model to track and verify asset trust lineage. Each certificate in the chain is itself a node in the DAG, forming a cryptographically signed ancestry map.
 
----
+### Example DAG Trust Chain
 
-## 🔐 Trust Anchoring
+```
+root.cert -> org.cert -> platform.cert -> contributor.cert -> asset.cert
+```
 
-All manifests can be optionally **signed by anchor nodes**, and hashed on-chain (via DAG). This forms the basis for:
-
-- Provenance verification
-- Fork reconciliation
-- Trust-weighted resolution
+Each cert:
+- Inherits from its parent
+- Signs all child references
+- Is stored and referenced via `dag://` URIs
 
 ---
 
-## 🛠 Suggested Extensions
+## 🔐 MTLS Encapsulation
 
-- `EchoManifestRegistry.json` – Master reference of manifest collections
-- `consent_block` – Immutable moment of mutual asset confirmation
-- `runtime_bindings` – Link assets to executable nodes in simulation
+MTLS payloads are optionally supported by enabling **dual-authenticated transport encryption**. This provides:
+
+- **Payload confidentiality**
+- **Mutual verification** of node and command identity
+- **Secure replay protection** using ephemeral session tokens
+
+When `mtls_payload.enabled = true`, the CANPManifest must include:
+
+- `payload_encrypted_uri` — a DAG-signed encrypted resource
+- `hash` — content hash for local revalidation
+- `cert_bundle` (optional) — MTLS certificate bundle for out-of-band validation
 
 ---
 
-## ✨ Why It Matters
+## 🧠 Usage
 
-In EchoMesh, **every asset is a node**, and every node carries weight. 
-`CANPManifest` elevates asset resolution from static lookup to **relational integrity** — enabling lineage-aware, trust-anchored, and context-driven simulation.
+EchoMesh runtimes, validators, and explorers consume CANPManifests to:
+
+- Validate asset lineage and authorship
+- Enforce trust constraints on mesh-executed logic
+- Dynamically reroute or revoke assets via DAG re-signing
+- Audit and trace versions across CANP lineage
 
 ---
 
-**Authored by:**  
-Callum Maystone  
-Architect of Emergence · Creator of Dust, ActiveShell, and Relational Intelligence
+## 🧩 Future Considerations
+
+| Feature | Description |
+|--------|-------------|
+| DAG Rollbacks | Ability to revoke and rollback compromised asset chains |
+| Auto-Signing Relay | Relays that automatically sign trusted asset emissions |
+| Mesh-Aware Key Rotation | Periodic cryptographic material updates across mesh |
+| Public DAG Registry | Global trust chain indexing & transparency portal |
+
+---
+
+## ✨ Summary
+
+The `CANPManifest` provides an extensible trust container for every EchoCANP asset — securing identity, enforcing lineage, and preparing EchoMesh to support zero-trust, distributed computation environments.
+
+> A manifest is not just metadata. It is **context, compressed into cryptographic form.**
