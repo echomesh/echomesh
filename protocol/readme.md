@@ -58,14 +58,56 @@ function resolveEchoCANP(dotPath) {
 > Final `id.ext` is the terminal node.
 
 ---
+🧬 Versioning Philosophy
 
-## 🧬 Versioning Philosophy
+EchoCANP is not versioned by tag (`v1`, `v2`) —  
+It is versioned by **contextual shift** and **semantic divergence**.
 
-EchoCANP is not versioned by tag (`v1`, `v2`) —
-It’s versioned by **contextual shift**.
+Each new dotpath (e.g., `.augmented`, `.refined`, `.forked`) represents  
+a unique **evolutionary branch** of the original node — not a static overwrite.
 
-Each new dotpath (e.g., `.augmented`, `.refined`, `.forked`)
-represents an emergent, semantically distinct branch.
+---
+
+### 🖥️ ActiveShell Commands (CANP Runtime Interface)
+
+EchoCANP is executable through `ActiveShell` — the operational interface layer for simulation and asset management.
+
+#### 🔎 Retrieve a single asset:
+
+```ActiveShell
+Get-Asset solar_system.earth.texture
+```
+
+#### 📜 View version history:
+
+```ActiveShell
+Get-AssetHistory solar_system.earth.texture
+```
+
+#### 📝 Set asset version explicitly:
+
+```ActiveShell
+Set-Asset solar_system.earth.texture -version 4
+```
+
+#### 🌐 Set asset by external URI:
+
+```ActiveShell
+Set-Asset solar_system.earth.texture -uri 'https://www.solarsystemscope.com/textures/download/8k_earth_daymap.jpg'
+```
+
+#### 🗃️ Retrieve grouped assets by hierarchy:
+
+```ActiveShell
+Get-AssetGroup -identity solar_system -Depth 2
+```
+
+> Omitting `-Depth` will retrieve **entire subgraph**.
+
+---
+
+Versioning in EchoCANP isn't about snapshots.
+It's about **capturing relational shifts** over time — each command embeds **trust**, **intent**, and **contextual lineage**.
 
 ---
 
