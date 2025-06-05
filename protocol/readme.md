@@ -17,6 +17,26 @@ EchoCANP is relational.
 Where URLs resolve to servers,  
 EchoCANP resolves to **meaning**.
 
+
+---
+
+### 🧠 Identity Principles (EchoMesh Canonical Pairs)
+
+ActiveTrust redefines access through relational primitives:
+
+| **Pair**           | **Meaning**                                                                 |
+|--------------------|------------------------------------------------------------------------------|
+| **Intent / Presence**     | Intent is signed. Presence is verified. Together they form the consent moment. |
+| **Input / Output**        | Trust is transactional — signals are both sent and received.                  |
+| **Request / Response**    | Every access starts with a question and ends with mutual agreement.          |
+| **Inlet / Outlet**        | Nodes open to trust (inlet) or express signals (outlet).                     |
+| **Signal / Trace**        | Presence is ephemeral. Trust is logged.                                      |
+| **Anchor / Propagate**    | Anchor a moment. Propagate a state.                                          |
+| **Proof / Consent**       | Proof validates identity; Consent enables access.                            |
+| **Coherence / Autonomy**  | Trust is contextual, not controlling. Autonomy remains sovereign.            |
+
+> **ActiveTrust is not a switch. It’s a handshake.**
+
 ---
 
 ## 🔤 Syntax
