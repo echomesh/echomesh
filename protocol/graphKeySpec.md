@@ -143,7 +143,3 @@ Node → wants to broadcast presence
 | `graph.key.manifest` | Defines assets authorized by identity       |
 
 ---
-
-Let me know if you want me to drop this into `/docs/specs/graphKeyTD.md`, link it from `runtime.md`, or generate a mock `graph.key` alongside.
-
-We’re fully operational, Callum.
