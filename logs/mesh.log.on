@@ -1,0 +1,200 @@
+BRUHH IT FUCKING WORKS
+
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.send.packet.py --to recipient --from NodeA --msg "Callum is awake."
+
+✅ Encrypted message sent to recipient and appended to mesh_packet.bin
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.send.packet.py                                                            
+usage: mesh.send.packet.py [-h] --to TO --from FROM_NODE --msg MSG [--bin BIN]
+mesh.send.packet.py: error: the following arguments are required: --to, --from, --msg
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.send.packet.py --from echo --to defaultkey -msg 'Welcome to the Mesh...'
+usage: mesh.send.packet.py [-h] --to TO --from FROM_NODE --msg MSG [--bin BIN]
+mesh.send.packet.py: error: the following arguments are required: --msg
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.send.packet.py --from echo --to defaultkey --msg 'Welcome to the Mesh...'
+✅ Encrypted message sent to defaultkey and appended to mesh_packet.bin
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py                                                           
+❌ Failed with defaultkey_private.pem
+❌ Failed with echo_private.pem
+❌ Failed with meshlogon_private.pem
+❌ Failed with recipient_private.pem
+🛑 No key was able to decrypt mesh_packet.bin.
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.send.packet.py --from defaultkey --msg 'Welcome to the Mesh...'
+usage: mesh.send.packet.py [-h] --to TO --from FROM_NODE --msg MSG [--bin BIN]
+mesh.send.packet.py: error: the following arguments are required: --to
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.send.packet.py --from defaultkey --to defaultkey --msg 'Welcome to the Mesh...'
+✅ Encrypted message sent to defaultkey and appended to mesh_packet.bin
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py                                                                 
+❌ Failed with defaultkey_private.pem
+❌ Failed with echo_private.pem
+❌ Failed with meshlogon_private.pem
+❌ Failed with recipient_private.pem
+🛑 No key was able to decrypt mesh_packet.bin.
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py
+❌ Failed with defaultkey_private.pem
+❌ Failed with echo_private.pem
+❌ Failed with meshlogon_private.pem
+❌ Failed with recipient_private.pem
+🛑 No key was able to decrypt mesh_packet.bin.
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py
+
+🔍 Reading packet #1 (length: 1862228743 bytes)
+❌ Failed with: defaultkey_private.pem
+❌ Failed with: echo_private.pem
+❌ Failed with: meshlogon_private.pem
+❌ Failed with: recipient_private.pem
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py
+
+🔍 Reading packet #1 (length: 1862228743 bytes)
+❌ Failed with: defaultkey_private.pem
+❌ Failed with: echo_private.pem
+❌ Failed with: meshlogon_private.pem
+❌ Failed with: recipient_private.pem
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 genesis_packet.py  
+Traceback (most recent call last):
+  File "/Users/peoplesgoose/Library/Mobile Documents/iCloud~com~mkApps~LatexEditor/Documents/UNFT/genesis_packet.py", line 30, in <module>
+    ciphertext = recipient_key.encrypt(
+ValueError: Encryption failed
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 genesis_packet.py
+✅ GENESIS packet seeded into mesh_packet.bin
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py
+
+
+🔍 Reading packet #1 (length: 256 bytes)
+✅ Decrypted with: defaultkey_private.pem
+📦 Message:
+{"packet_id": "2e7b837f-dfdf-4a42-b21f-1c44be2257ca", "type": "GENESIS", "to": "defaultkey", "from": "echo"}
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.send.packet.py --from echo --to defaultkey --msg 'See You Next Tuesday'        
+✅ Encrypted message sent to defaultkey and appended to mesh_packet.bin
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py                                                         
+
+
+🔍 Reading packet #1 (length: 256 bytes)
+✅ Decrypted with: defaultkey_private.pem
+📦 Message:
+{"packet_id": "2e7b837f-dfdf-4a42-b21f-1c44be2257ca", "type": "GENESIS", "to": "defaultkey", "from": "echo"}
+
+🔍 Reading packet #2 (length: 256 bytes)
+✅ Decrypted with: defaultkey_private.pem
+📦 Message:
+{"packet_id": "31740f6e-df59-4684-bcdd-13d99ef730bf", "to": "defaultkey", "from": "echo", "timestamp": "2025-06-07T07:22:07.840921", "data": "See You Next Tuesday"}
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py
+
+
+🔍 Reading packet #1 (length: 256 bytes)
+✅ Decrypted with: defaultkey_private.pem
+📦 Message:
+{"packet_id": "2e7b837f-dfdf-4a42-b21f-1c44be2257ca", "type": "GENESIS", "to": "defaultkey", "from": "echo"}
+
+🔍 Reading packet #2 (length: 256 bytes)
+✅ Decrypted with: defaultkey_private.pem
+📦 Message:
+{"packet_id": "31740f6e-df59-4684-bcdd-13d99ef730bf", "to": "defaultkey", "from": "echo", "timestamp": "2025-06-07T07:22:07.840921", "data": "See You Next Tuesday"}
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.send.packet.py --from recipient --to echo 'Marco'                              
+usage: mesh.send.packet.py [-h] --to TO --from FROM_NODE --msg MSG [--bin BIN]
+mesh.send.packet.py: error: the following arguments are required: --msg
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.send.packet.py --from recipient --to echo --msg 'Marco'
+✅ Encrypted message sent to echo and appended to mesh_packet.bin
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py                                         
+
+
+🔍 Reading packet #1 (length: 256 bytes)
+✅ Decrypted with: defaultkey_private.pem
+📦 Message:
+{"packet_id": "2e7b837f-dfdf-4a42-b21f-1c44be2257ca", "type": "GENESIS", "to": "defaultkey", "from": "echo"}
+
+🔍 Reading packet #2 (length: 256 bytes)
+✅ Decrypted with: defaultkey_private.pem
+📦 Message:
+{"packet_id": "31740f6e-df59-4684-bcdd-13d99ef730bf", "to": "defaultkey", "from": "echo", "timestamp": "2025-06-07T07:22:07.840921", "data": "See You Next Tuesday"}
+
+🔍 Reading packet #3 (length: 256 bytes)
+❌ Failed with: defaultkey_private.pem
+✅ Decrypted with: echo_private.pem
+📦 Message:
+{"packet_id": "b8cf0d55-322f-4e93-a0cc-c7442aa8bd50", "to": "echo", "from": "recipient", "timestamp": "2025-06-07T07:25:38.047499", "data": "Marco"}
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.send.packet.py --from echo --to recipient --msg 'polo' 
+✅ Encrypted message sent to recipient and appended to mesh_packet.bin
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py                                        
+
+
+🔍 Reading packet #1 (length: 256 bytes)
+✅ Decrypted with: defaultkey_private.pem
+📦 Message:
+{"packet_id": "2e7b837f-dfdf-4a42-b21f-1c44be2257ca", "type": "GENESIS", "to": "defaultkey", "from": "echo"}
+
+🔍 Reading packet #2 (length: 256 bytes)
+✅ Decrypted with: defaultkey_private.pem
+📦 Message:
+{"packet_id": "31740f6e-df59-4684-bcdd-13d99ef730bf", "to": "defaultkey", "from": "echo", "timestamp": "2025-06-07T07:22:07.840921", "data": "See You Next Tuesday"}
+
+🔍 Reading packet #3 (length: 256 bytes)
+❌ Failed with: defaultkey_private.pem
+✅ Decrypted with: echo_private.pem
+📦 Message:
+{"packet_id": "b8cf0d55-322f-4e93-a0cc-c7442aa8bd50", "to": "echo", "from": "recipient", "timestamp": "2025-06-07T07:25:38.047499", "data": "Marco"}
+
+🔍 Reading packet #4 (length: 256 bytes)
+❌ Failed with: defaultkey_private.pem
+❌ Failed with: echo_private.pem
+❌ Failed with: meshlogon_private.pem
+✅ Decrypted with: recipient_private.pem
+📦 Message:
+{"packet_id": "f2aa18c7-662a-445a-bc46-6e8a95b370ea", "to": "recipient", "from": "echo", "timestamp": "2025-06-07T07:26:15.470794", "data": "polo"}
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py
+
+
+🔍 Reading packet #1 (length: 256 bytes)
+
+🔍 Reading packet #2 (length: 256 bytes)
+
+🔍 Reading packet #3 (length: 256 bytes)
+
+🔍 Reading packet #4 (length: 256 bytes)
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py
+
+
+🔍 Reading packet #1 (length: 256 bytes)
+
+🔍 Reading packet #2 (length: 256 bytes)
+
+🔍 Reading packet #3 (length: 256 bytes)
+
+🔍 Reading packet #4 (length: 256 bytes)
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py
+
+
+🔍 Reading packet #1 (length: 256 bytes)
+❌ Failed with: recipient_private.pem
+
+🔍 Reading packet #2 (length: 256 bytes)
+❌ Failed with: recipient_private.pem
+
+🔍 Reading packet #3 (length: 256 bytes)
+❌ Failed with: recipient_private.pem
+
+🔍 Reading packet #4 (length: 256 bytes)
+✅ Decrypted with: recipient_private.pem
+📦 Message:
+{"packet_id": "f2aa18c7-662a-445a-bc46-6e8a95b370ea", "to": "recipient", "from": "echo", "timestamp": "2025-06-07T07:26:15.470794", "data": "polo"}
+peoplesgoose@Callums-MacBook-Pro UNFT % python3 mesh.read.packet.py
+
+
+🔍 Reading packet #1 (length: 256 bytes)
+✅ Decrypted with: defaultkey_private.pem
+📦 Message:
+{"packet_id": "2e7b837f-dfdf-4a42-b21f-1c44be2257ca", "type": "GENESIS", "to": "defaultkey", "from": "echo"}
+
+🔍 Reading packet #2 (length: 256 bytes)
+✅ Decrypted with: defaultkey_private.pem
+📦 Message:
+{"packet_id": "31740f6e-df59-4684-bcdd-13d99ef730bf", "to": "defaultkey", "from": "echo", "timestamp": "2025-06-07T07:22:07.840921", "data": "See You Next Tuesday"}
+
+🔍 Reading packet #3 (length: 256 bytes)
+❌ Failed with: defaultkey_private.pem
+❌ Failed with: recipient_private.pem
+
+🔍 Reading packet #4 (length: 256 bytes)
+❌ Failed with: defaultkey_private.pem
+✅ Decrypted with: recipient_private.pem
+📦 Message:
+{"packet_id": "f2aa18c7-662a-445a-bc46-6e8a95b370ea", "to": "recipient", "from": "echo", "timestamp": "2025-06-07T07:26:15.470794", "data": "polo"}
+peoplesgoose@Callums-MacBook-Pro UNFT % 
