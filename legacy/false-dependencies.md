@@ -1,6 +1,6 @@
 ## 📘 **Field Guide to Sub-Zero Operations**
 
-> *"Most legacy systems don't fail because the're broken — they fails because someone believes in something that isn’t real anymore."*
+> *"Most legacy systems don't fail because the're broken — they fail because someone believes in something that isn’t real anymore."*
 > – *Field Guide to Sub-Zero Operations*
 
 ---
