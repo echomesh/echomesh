@@ -16,7 +16,7 @@ parser.add_argument("--bin", default="mesh_packet.bin", help="Output file (defau
 args = parser.parse_args()
 
 # Resolve key path
-pub_key_path = Path(f"/keys/public/{args.to}_public.pem")
+pub_key_path = Path(f"keys/public/{args.to}_public.pem")
 if not pub_key_path.exists():
     print(f"🚫 Public key for {args.to} not found at {pub_key_path}")
     exit(1)
