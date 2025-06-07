@@ -1,9 +1,7 @@
 ## 📘 **Field Guide to Sub-Zero Operations**
 
-*A Tale from the Trenches. A Tale from the SQL Alps.*
-
-> *"Get it? Skidata."*
-> – Callum Maystone
+> *"Most legacy systems don't fail because the're broken — they fails because someone believes in something that isn’t real anymore."*
+> – *Field Guide to Sub-Zero Operations*
 
 ---
 
