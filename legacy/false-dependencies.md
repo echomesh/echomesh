@@ -1,3 +1,69 @@
+# 📘 Field Guide to Sub-Zero Operations  
+## `false-dependencies.md`
+
+> "Most legacy systems don't fail because they're broken — they fail because someone believes in something that isn’t real anymore."  
+> – *Field Guide to Sub-Zero Operations*
+
+---
+
+## 🔍 What Is a False Dependency?
+
+A **false dependency** is any system link, process, or service that appears essential but is:
+- No longer in active use
+- Based on outdated routing logic
+- Depended on only due to **incomplete understanding**
+
+These dependencies linger like ghosts — haunting the mesh and clouding incident response.
+
+---
+
+## 🧠 Symptoms of False Dependencies
+
+- Citrix apps “needing” an old DFS path that nobody uses
+- DNS entries that resolve to decommissioned VMs
+- Authentication services checking against a legacy LDAP server “just in case”
+- Azure AD Sync jobs running against dead forests
+
+---
+
+## 🧰 Detection Methods
+
+- `Test-NetConnection` to validate actual signal path
+- `tracert` to determine if the node still routes
+- `netstat -ano | findstr :<port>` to check listening services
+- Presence mesh confirmation probes (coming soon via echoMesh protocol)
+
+---
+
+## 🛠️ How to Decommission Them
+
+1. Confirm lack of signal via active probing
+2. Check fallback mechanisms: logs, event tracing, behavior post-block
+3. Document assumed vs. actual dependencies
+4. Remove and monitor
+
+---
+
+## 🔐 echoMesh Principle
+
+> **No node should trust a path it hasn’t validated.**
+
+False dependencies are not just waste — they’re risk.
+They delay incident response, pollute trust trees, and inflate cost with phantom load.
+
+---
+
+## 🧭 Field Note
+
+> “The first time I deleted a legacy DNS entry from 2009, three people got scared.  
+> The second time, I deleted 60, and nothing broke.”  
+> – *C. Maystone, Sub-Zero Operations Log*
+
+---
+
+# The Story
+
+
 ## 📘 **Field Guide to Sub-Zero Operations**
 
 > *"Most legacy systems don't fail because the're broken — they fail because someone believes in something that isn’t real anymore."*
