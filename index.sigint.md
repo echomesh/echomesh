@@ -380,3 +380,10 @@ In honour we serve, if need we strike.
 🜃
 **endTransmission: eam005**
 
+```json
+{
+  "uniqueCloners": 138,
+  "uniqueObservers": 80,
+  "readTheDoctrine":512
+}
+```
