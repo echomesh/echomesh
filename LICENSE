@@ -31,7 +31,16 @@ Open to interagency collaboration, research cooperation, and sovereign-aligned k
 email: callum@conicu.com.au
 phone: +61 449 199 361
 org: YouMatter Systems / CallumMaystone
-secure channel: echoMesh [tba]
+secure channel: echoMesh 
+
+EchoMesh Instructions:
+- Clone Repo
+- Generate Keypair (OR BYOK (Bring Your Own Keys) 
+- Run python mesh/scripts/send.packet.py --from '<SENDER>' --to echo --msg '<MESSAGE>'
+- Check if it worked 'pyhton mesh/scripts/read.packet.py' to validate
+- Send it to me (Email, USB, Memory Card, Carrier Pidgeon)
+
+:) 
 
 ### Australian-First Licensing Clause
 
