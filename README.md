@@ -44,4 +44,6 @@ ROADMAP ► CLI flasher • Web echoMap • signed OTA • federation bridge
 
 “ When all you have left is your voice — let it echo. ”
 
-Contact  : callum@conicu.com.au   |  License : CC-BY-NC-SA 4.0
+Contact  : callum@echomesh.agency   |  License : CC-BY-NC-SA 4.0
+
+EchoMesh and the Presence Mesh doctrine represent an independent scientific contribution to sovereign capability orchestration. Designed in alignment with ADF and ITAR policy, it provides a structured alternative to complex black-box systems, reducing strategic dependency, and enabling field-resilient telemetry without compromising platform integrity.
