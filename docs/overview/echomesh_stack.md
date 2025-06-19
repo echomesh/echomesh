@@ -8,7 +8,7 @@
 ```mermaid
 flowchart TD
     UI[🖥️ User / Ops UI]:::ui
-    AI[🧠 FoEC\n(Cognition)]:::ai
+    AI[🧠 FoEC\n Cognition]:::ai
     CTRL[🗄️ Coordinator]:::ctrl
     LOGIC[[Protocol Layer]]:::proto
     LINK[(LoRa PHY\n(868/915))]:::link
