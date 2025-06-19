@@ -11,7 +11,7 @@ flowchart TD
     AI[🧠 FoEC\n Cognition]:::ai
     CTRL[🗄️ Coordinator]:::ctrl
     LOGIC[[Protocol Layer]]:::proto
-    LINK[(LoRa PHY\n(868/915))]:::link
+    LINK[(LoRa PHY\n 868/915)]:::link
     HW[[ESP32-Sx\nHW Abstraction]]:::hw
 
     UI --> AI
