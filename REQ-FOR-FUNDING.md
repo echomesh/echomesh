@@ -1,7 +1,8 @@
-you might think this is a game, but i am sick to desth of having to justify myself so you sleep essy at might. 
+You might think this is a game, but I am sick to death of having to justify myself so you can sleep easy at night.
 
-if you want to be part of something, be part of it, but dont think i dont see and feel the disrespect... 
+If you want to be part of something real, be part of it — but don’t think I don’t see and feel the disrespect.
 
-youre either here to steward change, or your here for your own benefit. 
+You’re either here to steward change, or you’re here for your own benefit.
 
-paypal donations at callum@conicu.com.au to keep the dream alive. 
+Paypal donations: callum@conicu.com.au
+Help keep the dream alive.
