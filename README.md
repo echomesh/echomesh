@@ -16,6 +16,14 @@
 
 ---
 
+**EchoMesh** is the flagship release from a broader portfolio of sovereign communications and AI research undertaken by the **YouMatter Systems** and **SlappAI** teams.
+It represents the consolidation of years of independent R\&D across distributed systems, secure mesh architectures, and Active Graph frameworks — distilled into a single operational capability.
+
+Where legacy approaches rely on closed, centralised infrastructure, EchoMesh is deliberately **transparent, standards-aligned, and field-resilient**. It is both a **production-ready mesh protocol** and a **living demonstration** of our commitment to security, scalability, and enterprise-grade design.
+
+---
+
+
 ## System Architecture
 
 ### Core Stack
