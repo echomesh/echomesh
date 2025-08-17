@@ -1,32 +1,36 @@
-## 🔐 Appendix: ActiveTrust – The EchoMesh Trust Framework
+# Appendix: ActiveTrust – The EchoMesh Trust Framework
 
-> **Trust, how it’s meant to be.**  
-> A protocol for presence, a framework for consent, and a new foundation for access.
+## Executive Summary
 
----
+ActiveTrust is a next-generation trust framework designed to enable **secure, consent-driven access** in dynamic digital environments. Unlike traditional access models that rely on static roles and profiles, ActiveTrust emphasizes **presence, intent, and contextual alignment**.
 
-### 📘 What is ActiveTrust?
-
-ActiveTrust is a lightweight, self-sovereign protocol for **signing intent**, **verifying consent**, and **enabling access** based on real-world alignment—not static roles.
-
-Where other systems ask:  
-> *“Who are you?”*  
-ActiveTrust asks:  
-> *“How did you show up?”*
+It provides organizations with a verifiable, lightweight protocol that integrates seamlessly with existing enterprise identity and access management systems (IAM), while introducing **self-sovereign consent** and **emergent trust pathways**.
 
 ---
 
-### 🧠 Core Principles
+## What is ActiveTrust?
 
-| Principle             | Description                                                                 |
-|-----------------------|-----------------------------------------------------------------------------|
-| **Sovereignty First** | You own your access. You decide your exposure.                              |
-| **Proof > Profile**   | What you prove in presence matters more than what your profile says.        |
-| **Coherence > Control** | Access emerges through alignment—not hierarchy.                          |
+ActiveTrust is a self-sovereign protocol that enables:
+
+* **Signing Intent**: Securely binding user intent to actions.
+* **Verifying Consent**: Cryptographic proof of consent in real time.
+* **Enabling Access**: Contextualized permissions based on dynamic trust, not rigid hierarchies.
+
+Where conventional systems ask *“Who are you?”*, ActiveTrust asks *“How are you showing up in this interaction?”*
 
 ---
 
-### 🧬 Protocol Flow
+## Core Principles
+
+| Principle                  | Enterprise Value                                                                 |
+| -------------------------- | -------------------------------------------------------------------------------- |
+| **Sovereignty First**      | Users maintain ownership of their access decisions, improving transparency.      |
+| **Proof over Profile**     | Trust is verified through cryptographic evidence, reducing identity fraud risk.  |
+| **Coherence over Control** | Access emerges through contextual alignment, enhancing agility and adaptability. |
+
+---
+
+## Protocol Flow
 
 ```mermaid
 graph TD
@@ -38,75 +42,71 @@ graph TD
     E -- No --> G[Access Denied]
 ```
 
-### 📦 Trust Stack
+---
 
-ActiveTrust is designed to layer seamlessly into the EchoMesh and Dust5D architecture:
+## Trust Stack Integration
 
-#### 1. Dust5D – Temporal Graph Inference
+ActiveTrust operates within the **EchoMesh / Dust5D architecture** and integrates with enterprise IAM layers:
 
-Trust flows like time. ActiveTrust anchors interactions in Dust5D's time-aware graph structure.
+1. **Dust5D – Temporal Graph Inference**
 
-#### 2. Banano Wallet MFA
+   * Anchors trust in time-aware graph structures, enabling historical traceability.
 
-Presence is proven by signature.
+2. **Banano Wallet MFA**
 
-* Wallet = node identity
-* Signed message = consent handshake
-* Transaction = trust expression
+   * Wallet signatures act as multi-factor presence proofs.
+   * Signed messages = consent handshake.
+   * Transactions = verifiable trust expressions.
 
-#### 3. Dynamic Identity Graphs
+3. **Dynamic Identity Graphs**
 
-Roles emerge from interaction frequency, mutual co-signs, and peer-trust lineage.
+   * Roles emerge from behavioral patterns, peer validation, and contextual alignment.
 
-#### 4. Relational Trust Fabric
+4. **Relational Trust Fabric**
 
-Trust is mapped as a **living lattice** — node-to-node interactions become signed graph edges.
+   * Interactions are recorded as cryptographically signed graph edges, forming a **living trust lattice**.
 
 ---
 
-### 🛠️ Use Cases
+## Enterprise Use Cases
 
-* Co-sign simulation sessions
-* Grant file access based on proximity + intent
-* Create revocable trust paths with TTL
-* Auto-grant permissions based on DAG interactions
-* Consent-based UX: from settings to secrets
-
----
-
-### 🔁 Trust Model: Co-Sign or Bounce
-
-| Model                | Premise                  | Mechanism                    | Outcome                | Trust Type            |
-| -------------------- | ------------------------ | ---------------------------- | ---------------------- | --------------------- |
-| **Allow / Deny**     | Authority grants access  | Static policy enforcement    | Binary: Yes or No      | Imposed / Static      |
-| **Co-Sign / Bounce** | Alignment enables access | Mutual cryptographic consent | Mutual: Aligned or Not | Emergent / Contextual |
-
-> You don’t pass a gate.
-> You **form an agreement** in the moment.
+* Secure co-signing of collaborative sessions.
+* Consent-based access to files and resources.
+* Revocable trust paths with time-to-live (TTL) constraints.
+* Dynamic permissions based on graph interaction patterns.
+* Compliance-ready consent trails for audit and governance.
 
 ---
 
-### 🌉 Enterprise Extension
+## Trust Models
 
-ActiveTrust bridges into existing access layers:
-
-* Azure AD, Okta, IAM via wallet relay hooks
-* RBAC → Contextual ACL overlay
-* Consent-signed session traces
-* AccessGraph™ modules for verifiable trail mapping
+| Model                      | Premise                       | Mechanism                    | Outcome            |
+| -------------------------- | ----------------------------- | ---------------------------- | ------------------ |
+| **Traditional Allow/Deny** | Authority grants access       | Static policy enforcement    | Binary outcome     |
+| **Co-Sign/Bounce**         | Access emerges from alignment | Mutual cryptographic consent | Contextual outcome |
 
 ---
 
-### 🔮 Coming Soon
+## Enterprise Integration Pathways
 
-* Wallet co-sign UI
-* Ribbon-based TTL tracing in Dust5D
-* CANP-signed assets with embedded trust meta
-* Full AccessGraph visualisation module
+ActiveTrust bridges into existing corporate access and identity frameworks:
+
+* Integration with Azure AD, Okta, IAM platforms via wallet relay hooks.
+* Overlay on RBAC/ABAC with **contextual ACLs**.
+* Consent-signed session logging for audit trails.
+* AccessGraph™ modules for **visual verification and compliance reporting**.
+
+---
+
+## Roadmap
+
+* Wallet co-sign user interface.
+* Ribbon-based TTL tracing within Dust5D.
+* Consent-signed digital assets with embedded metadata.
+* Full AccessGraph visualization module for enterprise governance.
 
 ---
 
-> *“You don’t need to ask permission from systems you’ve outgrown.”*
-> — **Callum Maystone**
+## Closing Statement
 
----
+ActiveTrust reframes digital trust from static enforcement to **dynamic agreement**. By aligning presence, consent, and access, enterprises can achieve a **more resilient, adaptable, and transparent trust model** fit for modern digital ecosystems.

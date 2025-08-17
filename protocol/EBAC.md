@@ -1,100 +1,125 @@
-# 🔐 EchoMesh Protocol Extension: EBAC (Edge-Based Access Control)
+# EchoMesh Protocol Extension: EBAC (Edge-Based Access Control)
 
-## Overview
+## 1. Overview
 
-**Edge-Based Access Control (EBAC)** is the **relational access model** native to EchoMesh.  
-It replaces static permission frameworks with **dynamic, graph-inferred access**.
+**Edge-Based Access Control (EBAC)** is the **native relational access model** of EchoMesh.
+Unlike static identity and access management (IAM) frameworks, EBAC derives access rights **dynamically** from relationships within the mesh.
 
-Access rights are not assigned —  
-they **emerge from relationships** between nodes in the mesh.
+In EBAC:
 
----
+* Nodes represent **entities** (users, resources, agents).
+* Edges represent **permissions and trust relationships**.
+* Access decisions are evaluated in **real time** from the active graph.
 
-## ⚠️ Problem with Traditional IAM Models
-
-| Model | Description | Limitations |
-|-------|-------------|-------------|
-| **RBAC** | Role-Based | Static, manual, rigid |
-| **ABAC** | Attribute-Based | Complex policy sprawl |
-| **PBAC** | Policy-Based | Logic overkill, brittle at scale |
-| **EBAC** | **Edge-Based (Graph)** | 🔄 **Dynamic**, 🧠 **Contextual**, 🚀 **Scalable** |
+This approach provides a **context-aware, scalable, and self-evolving access fabric**.
 
 ---
 
-## 🧬 Protocol Function
+## 2. Limitations of Traditional IAM Models
 
-In EchoMesh, all nodes (users, resources, agents) are **vertices** in a DAG.  
-**Edges define context-aware permissions** (e.g., `CAN_EDIT`, `CAN_VIEW_ANON`, `CAN_AUDIT`).
+| Model                      | Description                      | Limitations                                  |
+| -------------------------- | -------------------------------- | -------------------------------------------- |
+| **RBAC** (Role-Based)      | Roles define permissions.        | Static, rigid, high administrative overhead. |
+| **ABAC** (Attribute-Based) | Attributes define policies.      | Policy sprawl, difficult to audit at scale.  |
+| **PBAC** (Policy-Based)    | Access rules encoded in logic.   | Complex, brittle, costly to maintain.        |
+| **EBAC** (Edge-Based)      | **Relationships define access.** | **Dynamic, contextual, scalable.**           |
 
-```graph
+---
+
+## 3. Protocol Function
+
+In EBAC, permissions emerge directly from **edges in the graph**.
+
+Example access edges:
+
+```plaintext
 [ Dr. Smith ] --(CAN_EDIT)--> [ Patient_001 ]
 [ Admin_Y ] --(HAS_FULL_ACCESS)--> [ All_Patients ]
 [ Researcher_X ] --(CAN_VIEW_DEIDENTIFIED)--> [ P001, P002, P003 ]
 ```
 
+Each **edge** includes:
+
+* Permission type (e.g., `CAN_EDIT`, `CAN_VIEW_DEIDENTIFIED`).
+* Time-to-live (TTL) or decay logic.
+* Contextual tags for scope (e.g., `research`, `clinical`).
+
 ---
 
-## 🔎 Resolution Flow
+## 4. Access Resolution Flow
 
 When a node requests access:
 
-1. Mesh checks for **active edges** between node and resource  
-2. Edge includes **permission type, TTL, and context tags**  
-3. Access is **granted/denied dynamically**, without role logic
+1. Mesh evaluates **edges** between node and resource.
+2. Validates edge state: permission type, TTL, context.
+3. Grants or denies access in **real time**, without static role evaluation.
+
+**Example: Access to Patient Record 002**
+
+| Node          | Edge Relationship       | Access Result |
+| ------------- | ----------------------- | ------------- |
+| Dr. Smith     | `CAN_EDIT`              | ✅ Granted     |
+| Researcher\_X | `CAN_VIEW_DEIDENTIFIED` | ✅ Granted     |
+| Auditor\_Z    | `CAN_AUDIT`             | ✅ Granted     |
+| Intern\_Y     | *No edge present*       | ❌ Denied      |
 
 ---
 
-## 🔄 Relationship Flow Example
+## 5. Access Fabric Concepts
 
-### Access to Patient Record 002:
-
-```plaintext
-👨‍⚕️ Dr. Smith       → CAN_EDIT            → Patient_002 ✅
-🔬 Researcher_X      → CAN_VIEW_DEIDENT    → Patient_002 ✅
-👀 Auditor_Z         → CAN_AUDIT           → Patient_002 ✅
-📕 Intern_Y          → NO EDGE             → Patient_002 ❌
-```
+* **Edges as Permissions** → Access modeled as graph relationships.
+* **Edge TTL/Decay** → Permissions expire automatically over time.
+* **Edge Mutation** → Access changes require only edge rewrites.
+* **Multi-Vector Access** → A single node may hold multiple, differentiated edges to different resources.
 
 ---
 
-## 🧱 Access Fabric Concepts
+## 6. Security and Integrity
 
-- **Edges as Permissions** → Relationships carry access state  
-- **Edge TTL / Decay** → Permissions can expire organically  
-- **Edge Mutation** → Updating access is a simple edge rewrite  
-- **Multi-Vector Access** → Same node, different edges to different resources
+EBAC enforces **zero-trust principles** by cryptographically securing edge states.
 
----
-
-## 🔐 DAG-Based Access Integrity
-
-- **Encrypted Edge State** → Access graph is tamper-resistant  
-- **Hash-Chained Permission Logs** → Every change is signed and auditable  
-- **Zero-Trust Native** → Every edge is revalidated at time of use  
-- **Real-Time Propagation** → New edges broadcast across mesh instantly
+* **Encrypted Edge State** → All permissions are tamper-resistant.
+* **Hash-Chained Logs** → Every change is signed and auditable.
+* **Zero-Trust Native** → No assumption of trust; each access is revalidated.
+* **Real-Time Propagation** → Edge changes broadcast across the mesh instantly.
 
 ---
 
-## 🧭 EchoMesh Alignment
+## 7. Comparative Alignment
 
-| Feature | Traditional IAM | EBAC (EchoMesh) |
-|---------|------------------|------------------|
-| Access Source | Roles/Policies | Graph Relationships |
-| Update Mode | Manual Admin | Auto-Reactive |
-| Scale | Finite | Infinite |
-| Real-World Mapping | Weak | 1:1 Relational |
-| AI Alignment | Minimal | Native Contextual Matching |
-| Encryption Backbone | Optional | Required (DAG-native) |
+| Feature                | Traditional IAM  | EBAC (EchoMesh)       |
+| ---------------------- | ---------------- | --------------------- |
+| Access Source          | Roles / Policies | Graph Relationships   |
+| Update Mode            | Manual Admin     | Auto-reactive         |
+| Scalability            | Finite           | Effectively infinite  |
+| Real-World Mapping     | Indirect         | Direct 1:1 relational |
+| AI Contextual Matching | Minimal          | Native                |
+| Encryption Backbone    | Optional         | Required (DAG-native) |
 
 ---
 
-## 💥 Summary
+## 8. Strategic Value
 
-**EBAC isn’t a feature — it’s the access layer the mesh was built for.**  
-It reflects how the world actually works: through **relationships, trust, and presence.**
+EBAC introduces a **relational access model** aligned with how enterprises actually operate: through **relationships, trust, and presence**.
 
-If RBAC is a door,  
-ABAC is a lock,  
-PBAC is a coded keypad...
+Benefits include:
 
-Then EBAC is **the hand that already holds the key**.
+* **Reduced IAM complexity** (no static roles/policies).
+* **Real-time adaptability** to contextual changes.
+* **Auditable trust lineage** via graph edges.
+* **Seamless AI integration** for contextual access decisions.
+
+---
+
+## 9. Summary
+
+EBAC represents the **access layer of EchoMesh**, providing a **dynamic, contextual, and scalable alternative** to RBAC, ABAC, and PBAC.
+
+By treating **edges as permissions**, EBAC enables:
+
+* Secure, zero-trust enforcement.
+* Context-driven access alignment.
+* Simplified governance at scale.
+
+EBAC is not an extension of legacy IAM — it is **the native access fabric for relational intelligence systems**.
+

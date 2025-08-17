@@ -1,48 +1,54 @@
-# 🛱 echoCANP – EchoMesh Contextual Asset Naming Protocol
+# EchoCANP – EchoMesh Contextual Asset Naming Protocol
 
-> “Every reference is a node. Every dot is an edge.”
+## Executive Summary
 
-`echoCANP` defines a semantic, graph-driven asset resolution model used by EchoMesh to reference files, functions, and nodes contextually — across both physical and abstract systems.
+**EchoCANP (Contextual Asset Naming Protocol)** provides a semantic, graph-driven asset resolution model designed for **context-aware referencing** across distributed systems. Unlike traditional file systems that focus on **location-based access**, EchoCANP resolves assets, functions, and nodes by **context and relational meaning**.
 
----
-
-## 🧠 Philosophy
-
-Traditional paths reference **location**.
-**EchoCANP** references **context**.
-
-Where file systems are rigid,
-EchoCANP is relational.
-Where URLs resolve to servers,
-EchoCANP resolves to **meaning**.
+This capability allows enterprises to achieve **more resilient referencing, verifiable lineage tracking, and intent-driven access control** within the EchoMesh trust framework.
 
 ---
 
-## 🌤 Syntax
+## Design Philosophy
+
+* **Location vs. Context**: Traditional paths reference location (e.g., file systems, URLs). EchoCANP references **contextual meaning**.
+* **Relational Model**: Every reference is a **node**; every dot (`.`) is an **edge**.
+* **Dynamic Resolution**: Instead of resolving to servers or static files, EchoCANP resolves to **semantic structures**.
+
+This enables enterprises to transition from **storage-centric data management** to **context-driven asset intelligence**.
+
+---
+
+## Syntax Model
+
+**General Format**
 
 ```
 [protocol]://[domain].[context].[subcontext].[identifier].[extension]
 ```
 
-* `protocol` → Governs routing and behavior (e.g., `echo`, `dag`)
-* `domain` → Root context (e.g., `assets`, `nodes`)
-* `context` → Category of intent or function
-* `subcontext` → Specific use or scenario
-* `identifier` → Asset or command node
-* `extension` → File type or resolution signature
+**Component Breakdown**
+
+* **protocol** → Routing/behavior (e.g., `echo`, `dag`).
+* **domain** → Root context (e.g., `assets`, `nodes`).
+* **context** → Category of intent or function.
+* **subcontext** → Specific use case or scenario.
+* **identifier** → Asset or command node.
+* **extension** → File type or resolution signature.
+
+**Examples**
+
+| Reference                                     | Meaning                           |
+| --------------------------------------------- | --------------------------------- |
+| `dag://assets.solar_system.earth.texture.jpg` | DAG-signed reference to an asset. |
+| `echo://nodes.esp32.lora.presence.init.json`  | Presence packet structure.        |
 
 ---
 
-## 🧺as Examples
+## Resolution Logic
 
-| CANP Reference                                | Meaning                    |
-| --------------------------------------------- | -------------------------- |
-| `dag://assets.solar_system.earth.texture.jpg` | DAG-signed asset reference |
-| `echo://nodes.esp32.lora.presence.init.json`  | Presence packet structure  |
+EchoCANP resolution interprets each `.` as a **graph edge**, with the final `id.ext` acting as the **terminal node**.
 
----
-
-## 📦 Resolution Logic
+**Simplified Logic**
 
 ```javascript
 function resolveEchoCANP(dotPath) {
@@ -54,77 +60,60 @@ function resolveEchoCANP(dotPath) {
 }
 ```
 
-> Interprets each `.` as a graph edge.
-> Final `id.ext` is the terminal node.
+---
+
+## Versioning Approach
+
+EchoCANP departs from static versioning (`v1`, `v2`) in favor of **semantic evolution**:
+
+* **Contextual Shifts** → New branches reflect changes in context (e.g., `.augmented`, `.refined`).
+* **Relational Divergence** → Each shift represents a **lineage fork**, preserving history and intent.
+* **Immutable Anchors** → Trust anchors ensure integrity and provenance.
+
+This enables enterprises to manage **evolutionary branches** of assets instead of overwriting history.
 
 ---
 
-## 🧬 Versioning Philosophy
+## ActiveShell Integration
 
-EchoCANP is not versioned by tag (`v1`, `v2`) —
-It is versioned by **contextual shift** and **semantic divergence**.
+EchoCANP is fully operable via **ActiveShell**, the runtime execution interface for EchoMesh.
 
-Each new dotpath (e.g., `.augmented`, `.refined`, `.forked`) represents
-a unique **evolutionary branch** of the original node — not a static overwrite.
+**Example Commands**
 
----
-
-### 🖥️ ActiveShell Commands (CANP Runtime Interface)
-
-EchoCANP is executable through `ActiveShell` — the operational interface layer for simulation and asset management.
-
-#### 🔎 Retrieve a single asset:
-
-```ActiveShell
+```powershell
+# Retrieve asset
 Get-Asset solar_system.earth.texture
-```
 
-#### 📜 View version history:
-
-```ActiveShell
+# View version history
 Get-AssetHistory solar_system.earth.texture
-```
 
-#### 🗘️ Set asset version explicitly:
-
-```ActiveShell
+# Set explicit version
 Set-Asset solar_system.earth.texture -version 4
-```
 
-#### 🌐 Set asset by external URI:
-
-```ActiveShell
+# Assign asset via external URI
 Set-Asset solar_system.earth.texture -uri 'https://www.solarsystemscope.com/textures/download/8k_earth_daymap.jpg'
-```
 
-#### 🗃️ Retrieve grouped assets by hierarchy:
-
-```ActiveShell
+# Retrieve grouped assets
 Get-AssetGroup -identity solar_system -Depth 2
 ```
 
-> Omitting `-Depth` will retrieve **entire subgraph**.
+*Note: Omitting `-Depth` retrieves the **entire subgraph**.*
 
 ---
 
-Versioning in EchoCANP isn't about snapshots.
-It's about **capturing relational shifts** over time — each command embeds **trust**, **intent**, and **contextual lineage**.
+## Mesh Integration
+
+Within EchoMesh, EchoCANP is used to:
+
+* Reference node blueprints.
+* Load and resolve dependencies.
+* Execute DAG manifests.
+* Trigger protocol handlers.
+* Maintain simulation lineage and audit trails.
 
 ---
 
-## 🧠 Mesh Integration
-
-EchoCANP is used throughout EchoMesh to:
-
-* Reference node blueprints
-* Load asset dependencies
-* Resolve DAG manifests
-* Trigger protocol handlers
-* Maintain simulation lineage
-
----
-
-## 🔐 EchoCANP in a Registry
+## Registry Example
 
 ```json
 {
@@ -142,48 +131,49 @@ EchoCANP is used throughout EchoMesh to:
 
 ---
 
-## 🛠 Future Extensions
+## Roadmap and Extensions
 
-| Feature                  | Description                                          |
-| ------------------------ | ---------------------------------------------------- |
-| `canp://` handler        | Protocol registration for browser/plugin support     |
-| `CANPManifest.json`      | Per-asset lineage and trust chain                    |
-| `EchoCANP Explorer`      | UI tool to parse, resolve, and visualize CANP graphs |
-| `Graph lineage tracking` | Enables inheritance, forks, and ancestry mapping     |
-
----
-
-## ✨ Why It Matters
-
-EchoCANP is the bridge between cognition and code.
-It elevates file access to **contextual graph alignment**.
-Where others store files — **EchoMesh stores meaning**.
+| Feature                    | Description                                             |
+| -------------------------- | ------------------------------------------------------- |
+| **`canp://` handler**      | Native protocol registration for browser/plugin use.    |
+| **`CANPManifest.json`**    | Asset lineage, provenance, and trust chain metadata.    |
+| **EchoCANP Explorer**      | UI for parsing, resolving, and visualizing CANP graphs. |
+| **Graph lineage tracking** | Inheritance, forking, and ancestry mapping support.     |
 
 ---
 
-## 📌 Appendix: ActiveTrust Alignment
+## Strategic Value
 
-EchoCANP operates within the ActiveTrust framework, which emphasizes relational trust and presence-based access. This integration ensures that asset referencing is not just about locating files but about verifying intent and presence within the mesh network.
+EchoCANP elevates enterprise data management from **file storage** to **contextual meaning**. It introduces:
 
-### 🔐 Identity Principles (EchoMesh Canonical Pairs)
+* **Resilient Referencing**: Context persists even if infrastructure changes.
+* **Compliance-Ready Audit Trails**: Built-in lineage and trust anchors.
+* **Dynamic Governance**: Integration with ActiveTrust for consent-driven access.
 
-ActiveTrust redefines access through relational primitives:
+Where others store files, **EchoMesh stores meaning.**
 
-| **Pair**                 | **Meaning**                                                                     |
-| ------------------------ | ------------------------------------------------------------------------------- |
-| **Intent / Presence**    | Intent is signed. Presence is verified. Together, they form the consent moment. |
-| **Input / Output**       | Trust is transactional — signals are both sent and received.                    |
-| **Request / Response**   | Every access starts with a question and ends with mutual agreement.             |
-| **Inlet / Outlet**       | Nodes open to trust (inlet) or express signals (outlet).                        |
-| **Signal / Trace**       | Presence is ephemeral. Trust is logged.                                         |
-| **Anchor / Propagate**   | Anchor a moment. Propagate a state.                                             |
-| **Proof / Consent**      | Proof validates identity; Consent enables access.                               |
-| **Coherence / Autonomy** | Trust is contextual, not controlling. Autonomy remains sovereign.               |
+---
 
-> **ActiveTrust is not a switch. It’s a handshake.**
+## Alignment with ActiveTrust
+
+EchoCANP operates natively within the **ActiveTrust framework**, ensuring asset resolution is inseparable from **intent verification** and **presence validation**.
+
+**Canonical Identity Pairs** (as defined by ActiveTrust):
+
+* Intent / Presence
+* Input / Output
+* Request / Response
+* Inlet / Outlet
+* Signal / Trace
+* Anchor / Propagate
+* Proof / Consent
+* Coherence / Autonomy
+
+This ensures that **referencing an asset = verifying trust and consent.**
 
 ---
 
 **Authored by:**
-Callum Maystone
-*Architect of Emergence • Creator of Relational Intelligence*
+*Callum Maystone*
+Architect of Emergence • Creator of Relational Intelligence
+

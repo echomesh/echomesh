@@ -1,98 +1,96 @@
-## 🔐 **echoMesh Design Decision — Core Architecture Lock**
+# EchoMesh Core Architecture — Design Specification
 
-### ✅ **Network-Agnostic, Modular Mesh Protocol**
-
-* Every node (ESP32, Pi, etc.) operates as an **independent, interoperable entity**.
-* The mesh must work regardless of manufacturer — **LoRa, WiFi, UART, SPI, BLE all acceptable** at the link layer.
-* Protocol flow is **agnostic to source hardware**, governed instead by the **packet sequence + channel interface model**.
+**Specification**: echoMesh-ArchLock-v1.0
+**Date**: 2025-06-06
 
 ---
 
-### 🧱 **Layered Architecture**
+## 1. Design Principles
 
-#### **1. Physical Layer**
+The EchoMesh protocol stack is defined as a **network-agnostic, modular mesh framework**.
 
-* **Primary Transport:** SX1262 LoRa @ 915MHz
-* Optional uplink: WiFi, USB, Ethernet (via Pi Command Module)
-
-#### **2. Network Layer: `echoL1`**
-
-* Packet Structure: `(PID, Hash, Time, Payload)`
-* Flow logic: Defined by 7-sequence interface routing table
-* Channels and lanes standardised across nodes
-
-#### **3. Compute Layer**
-
-* ESP32s: **Decentralised processors**, capable of encryption, filtering, response
-* Raspberry Pi: **Command Module**, acts as DAG root + uplink negotiator
-
-#### **4. Storage Layer**
-
-* Field: Onboard Flash or SPI Flash
-* Command: MicroSD / USB / External drive
-* Cloud Uplink: Optional via API, FTP, MQTT, or JSON stream
-
-#### **5. DAG + ACL Security Model**
-
-* Access controlled via signed DAG propagation
-* **Device Identity = PID**
-* **Trust = DAG-defined, TTL-constrained**
-* ACLs are not static; they **evolve through interaction + verification**
+* Each node (e.g., ESP32, Raspberry Pi) operates as an **independent, interoperable entity**.
+* The protocol is **transport-agnostic**: LoRa, Wi-Fi, UART, SPI, and BLE are all valid link layers.
+* Flow logic is governed by a **packet sequence and channel interface model**, not by underlying hardware.
 
 ---
 
-### 📦 **Plug-and-Play Philosophy**
+## 2. Layered Architecture
 
-* **Each device has a local registry**:
+### 2.1 Physical Layer
 
-  * Device type
-  * Pin mapping
-  * Capabilities
-  * Trust flags
-* Devices can be hot-swapped, repositioned, or redeployed with no hardcoded assumptions.
+* **Primary Transport**: SX1262 LoRa @ 915 MHz.
+* **Optional Uplinks**: Wi-Fi, USB, or Ethernet (via Command Module).
 
----
+### 2.2 Network Layer: `echoL1`
 
-### 🧠 **Command Module (Pi) Responsibilities**
+* **Packet Structure**: `(PID, Hash, Time, Payload)`.
+* **Flow Logic**: Seven-sequence interface routing table.
+* **Standardization**: Channels and lanes are consistent across all nodes.
 
-* Host echoOS / echoShell
-* Visualise mesh topology
-* Relay or store critical messages
-* Perform bulk crypto / sync / uplink ops
-* Maintain DAG state + respond to foreign PID queries
+### 2.3 Compute Layer
 
----
+* **Field Nodes (ESP32s)**: Perform encryption, filtering, and response actions.
+* **Command Module (Raspberry Pi)**: DAG root, uplink negotiator, and mesh orchestrator.
 
-### 🛠️ Next Steps
+### 2.4 Storage Layer
 
-* Build `echoOS` starter with local JSON registry + LoRa Rx
-* Draft DAG format (node-based ACL prototype)
-* Develop modular enclosure schema (magnet or clip-in preferred)
-* Finalise registry format: `device.json`
+* **Field Nodes**: Onboard or SPI Flash.
+* **Command Module**: MicroSD, USB, or external storage.
+* **Cloud Uplink**: Optional via API, FTP, MQTT, or JSON stream.
 
+### 2.5 DAG + ACL Security Model
 
----
-
-## 🧬 **echoMesh Protocol Extension**
-
-### 🔁 **Startup Modes**
-
-| Mode              | Behavior                                                         | Use Case                                  |
-| ----------------- | ---------------------------------------------------------------- | ----------------------------------------- |
-| `Active Startup`  | Broadcasts presence to all nearby nodes via echoPing             | Field deployment, new mesh introduction   |
-| `Passive Startup` | Listens silently for existing echoMesh packets before responding | Stealth rejoin, low-power or silent nodes |
-
-#### Startup Sequence (Passive Preferred Default)
-
-```
-1. Listen (timeout configurable, e.g., 5000ms)
-2. If no packets heard → Broadcast `echoMesh::initRequest`
-3. If packets heard → Respond to nearest affinity group (see below)
-```
+* Access controlled by **signed DAG propagation**.
+* **Device Identity = PID**.
+* **Trust = DAG-defined, TTL-constrained**.
+* ACLs are dynamic and evolve through interaction and verification.
 
 ---
 
-### 🌐 **Sequence Timing Logic**
+## 3. Device Registry and Plug-and-Play Model
+
+Each device maintains a **local registry**:
+
+* Device type.
+* Pin mapping.
+* Capabilities.
+* Trust flags.
+
+Devices can be redeployed, repositioned, or swapped without hardcoded configuration, supporting **plug-and-play deployment**.
+
+---
+
+## 4. Command Module Responsibilities
+
+The Command Module (Raspberry Pi) provides:
+
+* Hosting of echoOS and echoShell.
+* Visualization of mesh topology.
+* Relay and storage of critical messages.
+* Bulk cryptographic operations, synchronization, and uplink negotiation.
+* DAG state maintenance and PID query resolution.
+
+---
+
+## 5. Startup Modes
+
+| Mode                | Behavior                                                           | Use Case                           |
+| ------------------- | ------------------------------------------------------------------ | ---------------------------------- |
+| **Active Startup**  | Broadcasts presence to all nearby nodes (`echoPing`).              | New mesh deployments.              |
+| **Passive Startup** | Listens for existing EchoMesh packets before responding (default). | Stealth rejoin, low-power devices. |
+
+**Passive Startup Sequence:**
+
+1. Listen (timeout configurable, e.g., 5000ms).
+2. If no packets detected → Broadcast `echoMesh::initRequest`.
+3. If packets detected → Respond to nearest affinity group.
+
+---
+
+## 6. Sequence Timing Logic
+
+Example handshake sequence:
 
 ```mermaid
 sequenceDiagram
@@ -105,13 +103,16 @@ sequenceDiagram
     NodeB-->>NodeA: [T+10ms] echoMesh::initAck (with trust proof)
     NodeA->>CommandPi: [T+15ms] syncState(request DAG + trust cache)
     CommandPi-->>NodeA: [T+25ms] DAG proof, Host List
-
     NodeA-->>NodeB: [T+40ms] echoMesh::hello {PID, Affinity, WalletSig}
 ```
 
 ---
 
-### 🔒 **Federated Trust Host Cache (Wallet Model)**
+## 7. Federated Trust Host Cache
+
+EchoMesh maintains a **wallet-based trust cache** of known hosts.
+
+**Example:**
 
 ```json
 {
@@ -134,16 +135,15 @@ sequenceDiagram
 
 ---
 
-### 💠 **Node Routing by Affinity**
+## 8. Routing by Affinity
 
-When routing packets:
+Packet routing is determined by affinity scoring:
 
-* Choose path with:
+* Higher trust score.
+* DAG-backed signature validation.
+* Lower latency or signal proximity.
 
-  * ✅ Higher trust score
-  * ✅ DAG-backed signature (wallet verified)
-  * ✅ Proximity or lower latency (if signal strength available)
-* Use `Affinity Routing Table (ART)` locally:
+**Affinity Routing Table (ART):**
 
 ```json
 {
@@ -168,9 +168,9 @@ When routing packets:
 
 ---
 
-### 👋 **Optional Goodbye Sequence**
+## 9. Node Decommissioning
 
-If a node is decommissioned or forcibly leaving:
+When a node is removed or compromised, it issues a **Goodbye Sequence**:
 
 ```json
 {
@@ -180,31 +180,21 @@ If a node is decommissioned or forcibly leaving:
 }
 ```
 
-Receiving nodes:
+Receiving nodes will:
 
-* ✅ Mark `last_seen` time
-* ❌ Revoke live routing paths
-* Optionally flag node for **trust review**
-
----
-
-### 📘 **GitHub Documentation Notes**
-
-You can drop these directly into `README.md` or `.md` files using triple backticks:
-
-````
-```mermaid
-sequenceDiagram
-    ...
-```
-````
+* Mark `last_seen`.
+* Revoke routing paths.
+* Optionally flag the node for trust review.
 
 ---
 
-This spec now covers:
+## 10. Strategic Coverage
 
-* Cold boot presence awareness
-* Trust-managed sequencing
-* DAG-federated access
-* Mesh restoration with affinity-persistence
+This specification defines:
 
+* Cold boot presence awareness.
+* Trust-managed sequencing.
+* DAG-federated access control.
+* Mesh restoration with affinity persistence.
+
+Together, these features establish **EchoMesh as a resilient, secure, and interoperable distributed mesh protocol** suitable for enterprise and field deployment.

@@ -1,18 +1,20 @@
-# EchoMesh – Stack Overview  
-*A hardware-to-cognition run-down of every tier in the mesh.*
+# EchoMesh — Stack Overview
+
+**Specification**: EchoMesh-Stack-v1.0
+**Date**: 2025-06-06
 
 ---
 
-## 1. Layer-Cake at a Glance
+## 1. Layered Architecture Overview
 
 ```mermaid
 flowchart TD
-    UI[🖥️ User / Ops UI]:::ui
-    AI[🧠 FoEC\n Cognition]:::ai
-    CTRL[🗄️ Coordinator]:::ctrl
+    UI[User / Ops UI]:::ui
+    AI[FoEC Cognition]:::ai
+    CTRL[Coordinator]:::ctrl
     LOGIC[[Protocol Layer]]:::proto
-    LINK[(LoRa PHY\n 868/915)]:::link
-    HW[[ESP32-Sx\nHW Abstraction]]:::hw
+    LINK[(LoRa PHY 868/915)]:::link
+    HW[[ESP32-Sx Hardware Abstraction]]:::hw
 
     UI --> AI
     AI --> CTRL
@@ -26,16 +28,16 @@ flowchart TD
     classDef proto fill:#bee3f8,stroke:#333,stroke-width:1px;
     classDef link fill:#fed7e2,stroke:#333,stroke-width:1px;
     classDef hw fill:#e2e8f0,stroke:#333,stroke-width:1px;
-````
+```
 
-| Layer          | Purpose                                               | Key Modules                         |
-| -------------- | ----------------------------------------------------- | ----------------------------------- |
-| UI / Ops       | CLI, dashboard, OTA config                            | Grafana panel, mesh-cli, OTAd       |
-| FoEC Cognition | Pattern vetting (NV1 → NV2 → PV), adaptive heuristics | foec-core, foec-vet                 |
-| Coordinator    | Global graph merge, cert signing, role delegation     | controllerd, graph-merge            |
-| Protocol       | Mesh wire formats & state machines                    | NTSP, DOTP, DCA-G, DRAP, DMCP, SEMP |
-| Link           | Raw RF framing, FHSS, CRC16                           | lora\_driver, IRQ ISR               |
-| Hardware       | ESP32-S3, peripheral init, NVS                        | HAL, SPI, GPIO •                    |
+| Layer          | Purpose                                                  | Key Modules                         |
+| -------------- | -------------------------------------------------------- | ----------------------------------- |
+| User / Ops     | CLI, dashboards, OTA configuration                       | Grafana, mesh-cli, OTAd             |
+| FoEC Cognition | Pattern vetting (NV1 → NV2 → PV), adaptive heuristics    | foec-core, foec-vet                 |
+| Coordinator    | Global graph merge, certificate signing, role delegation | controllerd, graph-merge            |
+| Protocol       | Mesh wire formats and state machines                     | NTSP, DOTP, DCA-G, DRAP, DMCP, SEMP |
+| Link           | Raw RF framing, frequency hopping, CRC16                 | lora\_driver, IRQ ISR               |
+| Hardware       | ESP32-S3 hardware abstraction and initialization         | HAL, SPI, GPIO, NVS                 |
 
 ---
 
@@ -45,14 +47,14 @@ flowchart TD
 graph LR
     subgraph Transport
         NTSP[NTSP<br/>Time Sync]
-        DOTP[DOTP<br/>Obj Xfer]
+        DOTP[DOTP<br/>Object Transfer]
     end
     subgraph Trust
-        DCA[DCA-G<br/>Graph CA]
+        DCA[DCA-G<br/>Graph Certificate Authority]
         DRAP[DRAP<br/>Provenance]
     end
     subgraph Config
-        DMCP[DMCP<br/>Mesh Config]
+        DMCP[DMCP<br/>Mesh Configuration]
         SEMP[SEMP<br/>Presence]
     end
     subgraph Cognition
@@ -67,19 +69,19 @@ graph LR
     DOTP --> FoECV
 ```
 
-| Protocol | Layer     | Brief                                             |
-| -------- | --------- | ------------------------------------------------- |
-| NTSP     | Transport | Tick/Pulse-Echo sync, TΔ calc (±5ms target drift) |
-| DOTP     | Transport | Chunked payload, CRC, multipath echo              |
-| DCA-G    | Trust     | Role-scoped certs, key rotation                   |
-| DRAP     | Trust     | DAG hash lineage ↔ payload IDs                    |
-| DMCP     | Config    | Role negotiation, quorum, channel hopping         |
-| SEMP     | Config    | Heartbeat, liveness, presence gossip              |
-| FoEC-Vet | Cognition | NV1+NV2+PV vetting & threat depth                 |
+| Protocol | Layer     | Purpose                                                   |
+| -------- | --------- | --------------------------------------------------------- |
+| NTSP     | Transport | Time synchronization (tick/pulse-echo, ΔT calc ±5ms).     |
+| DOTP     | Transport | Chunked payload transfer, CRC validation, multipath echo. |
+| DCA-G    | Trust     | Role-scoped certificates and key rotation.                |
+| DRAP     | Trust     | DAG-based hash lineage and payload verification.          |
+| DMCP     | Config    | Role negotiation, quorum management, channel hopping.     |
+| SEMP     | Config    | Heartbeat, liveness detection, presence gossip.           |
+| FoEC-Vet | Cognition | NV1+NV2+PV vetting and adaptive threat evaluation.        |
 
 ---
 
-## 3. Typical Message Lifeline
+## 3. Message Lifecycle Example
 
 ```mermaid
 sequenceDiagram
@@ -87,38 +89,38 @@ sequenceDiagram
     participant B as Node B (Endpoint)
     participant C as Coordinator
 
-    Note over A,B: Cycle = 42<br/>Phase = PULSE<br/>TΔ target ±5ms
-    A->>B: `NTSP.PULSE` (t_tx)
-    B-->>A: `NTSP.ECHO`  (t_rx)
-    A->>A: Locally compute **TΔ**
-    A-)C: `DOTP` data + `DCA` sig
-    C-->>C: Merge shard → Global G
+    Note over A,B: Cycle = 42 • Phase = PULSE • ΔT target ±5ms
+    A->>B: NTSP.PULSE (t_tx)
+    B-->>A: NTSP.ECHO (t_rx)
+    A->>A: Compute ΔT locally
+    A-)C: DOTP data + DCA signature
+    C-->>C: Merge shard → Global Graph
 ```
 
 ---
 
-## 4. Data-Structure Snippets
+## 4. Data Structure Examples
 
 ### 4.1 NTSP Packet (CBOR)
 
 ```json
 {
-  "cycle":     42,
-  "phase":     0,          // 0=PULSE,1=ECHO,2=HOLD,3=MERGE
-  "t_tx_ms":   1718123123,
-  "t_rx_ms":   1718123129,
-  "crc16":     0x9a3b
+  "cycle": 42,
+  "phase": 0,           // 0=PULSE, 1=ECHO, 2=HOLD, 3=MERGE
+  "t_tx_ms": 1718123123,
+  "t_rx_ms": 1718123129,
+  "crc16": "0x9a3b"
 }
 ```
 
-### 4.2 Cert Profile (YAML)
+### 4.2 Certificate Profile (YAML)
 
 ```yaml
-pub:   /cert/node_pub.pem
-pri:   /cert/node_pri.pem
-role:  Relay
-scope: Local
-ts_issued: 1718123000
+pub:        /cert/node_pub.pem
+pri:        /cert/node_pri.pem
+role:       Relay
+scope:      Local
+ts_issued:  1718123000
 expires_in: 604800   # 7 days
 grp:
   - echo-alpha
@@ -127,7 +129,7 @@ grp:
 
 ---
 
-## 5. Graph-Merge Pseudo
+## 5. Graph Merge Logic (Pseudo-code)
 
 ```python
 def merge_shard(shard, global_g):
@@ -135,21 +137,32 @@ def merge_shard(shard, global_g):
         global_g.add_node(n, **d)
     for u, v, w in shard.edges(data=True):
         global_g.add_edge(u, v, **w)
-    # Apply node/edge overrides if conflicts exist
+    # Apply node/edge overrides in case of conflicts
     return global_g
 ```
 
 ---
 
-## 6. Hardware Reference
+## 6. Hardware Reference (ESP32-S3 + LoRa SX127x)
 
-| Pin    | ESP32-S3 | LoRa SX127x | Note        |
-| ------ | -------- | ----------- | ----------- |
-| GPIO5  | MOSI     | DI0         | SPI MOSI    |
-| GPIO18 | MISO     | —           | SPI MISO    |
-| GPIO19 | SCK      | —           | Clock       |
-| GPIO23 | CS       | NSS         | Chip-select |
-| GPIO26 | DIO0     | IRQ         | RX done IRQ |
+| Pin    | ESP32-S3 Function | LoRa SX127x Pin | Description |
+| ------ | ----------------- | --------------- | ----------- |
+| GPIO5  | MOSI              | DI0             | SPI MOSI    |
+| GPIO18 | MISO              | —               | SPI MISO    |
+| GPIO19 | SCK               | —               | SPI Clock   |
+| GPIO23 | CS                | NSS             | Chip Select |
+| GPIO26 | DIO0              | IRQ             | RX Done IRQ |
 
 ---
 
+## 7. Strategic Value
+
+The EchoMesh stack provides a **full lifecycle model** from hardware abstraction to cognition:
+
+* **Hardware layer**: Commodity devices (ESP32, LoRa).
+* **Protocol layer**: Time sync, object transfer, configuration, trust enforcement.
+* **Coordinator**: Global DAG management and certificate authority.
+* **Cognition layer**: Adaptive vetting and AI-aligned heuristics.
+* **User/Operations layer**: Tools for monitoring, configuration, and visualization.
+
+This layered approach enables EchoMesh to support **resilient, secure, and adaptive distributed mesh networks**, scalable from field deployments to enterprise contexts.

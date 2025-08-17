@@ -1,10 +1,23 @@
-## `DA-CERT v0.1` — **Directed Assertion Certificate**
+# DA-CERT v0.1 — Directed Assertion Certificate
 
-A local, signed trust structure for decentralized identity, embedded at the hardware layer.
+**Specification**: DA-CERT-v0.1
+**Date**: 2025-06-06
 
 ---
 
-### 1. **Header**
+## 1. Overview
+
+The **Directed Assertion Certificate (DA-CERT)** defines a **local, cryptographically signed trust structure** for decentralized identity.
+
+* Embedded at the hardware layer.
+* Represented as a signed graph (nodes and edges).
+* Enables verifiable delegation, presence, and routing across EchoMesh environments.
+
+---
+
+## 2. Certificate Structure
+
+### 2.1 Header
 
 ```json
 {
@@ -15,11 +28,13 @@ A local, signed trust structure for decentralized identity, embedded at the hard
 }
 ```
 
+Defines certificate identifier, issuance time, issuer, and schema version.
+
 ---
 
-### 2. **Nodes**
+### 2.2 Nodes
 
-Each node represents a key-bound identity or role.
+Each node represents a **key-bound identity or role** within the certificate.
 
 ```json
 "nodes": {
@@ -38,9 +53,9 @@ Each node represents a key-bound identity or role.
 
 ---
 
-### 3. **Edges**
+### 2.3 Edges
 
-Each edge is a signed trust derivation between nodes.
+Each edge represents a **signed trust derivation** between nodes.
 
 ```json
 "edges": [
@@ -57,9 +72,9 @@ Each edge is a signed trust derivation between nodes.
 
 ---
 
-### 4. **Context (Optional)**
+### 2.4 Context (Optional)
 
-System or situational metadata bound to the cert.
+Optional system or situational metadata bound to the certificate.
 
 ```json
 "context": {
@@ -71,9 +86,9 @@ System or situational metadata bound to the cert.
 
 ---
 
-### 5. **Root Signature**
+### 2.5 Root Signature
 
-Top-level DAG signature.
+The **top-level DAG signature** validates the entire certificate structure.
 
 ```json
 "root_signature": {
@@ -85,28 +100,46 @@ Top-level DAG signature.
 
 ---
 
-## ✅ Validation Rules
+## 3. Validation Rules
 
 * All node keys must be valid public keys.
-* All edge signatures must be verifiable against `from` node key.
-* `root_signature.hash` must match hash of serialized graph content.
+* All edge signatures must be verifiable against the corresponding `from` node key.
+* `root_signature.hash` must match the hash of the serialized graph content.
 * Graph traversal must resolve without cycles.
 
 ---
 
-## 📁 Recommended Filename
+## 4. Recommended Filename
 
-```bash
+Certificates should be stored in the format:
+
+```
+da-cert-<id>.json
+```
+
+Example:
+
+```
 da-cert-0001.json
 ```
 
 ---
 
-## 📡 Deployment
+## 5. Deployment
 
-Embed DA Cert hash or full cert in:
+DA-CERTs may be embedded as trust anchors within:
 
-* `echoL1` presence packets
-* Asset broadcast signatures
-* Trust assertion payloads
+* `echoL1` presence packets.
+* Asset broadcast signatures.
+* Trust assertion payloads.
+
+---
+
+## 6. Strategic Value
+
+DA-CERT establishes a **lightweight, verifiable identity structure** suitable for distributed mesh environments, offering:
+
+* Decentralized trust inheritance.
+* Hardware-level identity embedding.
+* Extensible DAG-based validation for edge networks.
 

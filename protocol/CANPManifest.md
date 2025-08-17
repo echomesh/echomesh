@@ -1,26 +1,28 @@
-# 📄 CANPManifest.md — EchoCANP Asset Trust Manifest
+# EchoCANP Asset Trust Manifest (CANPManifest)
 
-> **Encapsulating Trust. Declaring Intent. Defining Lineage.**
-
-The `CANPManifest` defines the **cryptographic metadata envelope** for any EchoCANP-resolvable asset.
-It encapsulates **versioning, certification, origin metadata**, and optional **MTLS-wrapped payloads** using a DAG-based certificate chaining mechanism.
+**Specification**: CANPManifest-v0.1
+**Date**: 2025-06-06
 
 ---
 
-## 🔐 Purpose
+## 1. Purpose
 
-CANPManifests act as **trust-bound signatures** for assets and instructions resolved via EchoCANP, ensuring:
+The **CANPManifest** defines the **cryptographic metadata envelope** for any asset resolvable through EchoCANP.
 
-- Integrity of context-bound asset references
-- Cryptographically signed authorship and version lineage
-- Secure delivery via encapsulated Mutual TLS (MTLS) envelopes
-- Verification against DAG-signed trust authorities
+It ensures that assets are accompanied by verifiable trust data, including:
+
+* **Integrity**: Context-bound asset references are tamper-resistant.
+* **Lineage**: Each version is cryptographically signed with full ancestry tracking.
+* **Confidentiality**: Payloads may be delivered via MTLS-wrapped envelopes.
+* **Trust Verification**: Assets are validated against DAG-based trust authorities.
 
 ---
 
-## 🧬 Manifest Structure
+## 2. Manifest Structure
 
-Each manifest is an extensible, cryptographically verifiable object:
+Each CANPManifest is an extensible, cryptographically verifiable JSON object.
+
+**Schema Example:**
 
 ```json
 {
@@ -46,63 +48,77 @@ Each manifest is an extensible, cryptographically verifiable object:
 
 ---
 
-## 🔗 DAG-Based Certification Chain
+## 3. DAG-Based Certification Chain
 
-EchoMesh uses a **Directed Acyclic Graph (DAG)** model to track and verify asset trust lineage. Each certificate in the chain is itself a node in the DAG, forming a cryptographically signed ancestry map.
+CANPManifests embed into a **Directed Acyclic Graph (DAG)** trust structure. Each certificate:
 
-### Example DAG Trust Chain
+* Inherits validity from its parent.
+* Signs all child assets.
+* Is stored and referenced via `dag://` URIs.
+
+**Example DAG Trust Chain:**
 
 ```
-root.cert -> org.cert -> platform.cert -> contributor.cert -> asset.cert
+root.cert → org.cert → platform.cert → contributor.cert → asset.cert
 ```
 
-Each cert:
-- Inherits from its parent
-- Signs all child references
-- Is stored and referenced via `dag://` URIs
+This approach ensures **cryptographic lineage** across all assets, with revocation and inheritance handled natively by the DAG.
 
 ---
 
-## 🔐 MTLS Encapsulation
+## 4. MTLS Encapsulation
 
-MTLS payloads are optionally supported by enabling **dual-authenticated transport encryption**. This provides:
+For high-security contexts, CANPManifests can include **MTLS payload support**, enabling dual-authenticated encrypted transport.
 
-- **Payload confidentiality**
-- **Mutual verification** of node and command identity
-- **Secure replay protection** using ephemeral session tokens
+**Benefits:**
 
-When `mtls_payload.enabled = true`, the CANPManifest must include:
+* End-to-end payload confidentiality.
+* Mutual verification of node and command identity.
+* Replay protection using ephemeral session tokens.
 
-- `payload_encrypted_uri` — a DAG-signed encrypted resource
-- `hash` — content hash for local revalidation
-- `cert_bundle` (optional) — MTLS certificate bundle for out-of-band validation
+**Requirements when enabled (`mtls_payload.enabled=true`):**
+
+* `payload_encrypted_uri` — DAG-signed encrypted asset reference.
+* `hash` — Content hash for integrity revalidation.
+* `cert_bundle` (optional) — Supplemental MTLS certificates.
 
 ---
 
-## 🧠 Usage
+## 5. Runtime Usage
 
 EchoMesh runtimes, validators, and explorers consume CANPManifests to:
 
-- Validate asset lineage and authorship
-- Enforce trust constraints on mesh-executed logic
-- Dynamically reroute or revoke assets via DAG re-signing
-- Audit and trace versions across CANP lineage
+* Validate authorship, lineage, and trust integrity.
+* Enforce cryptographic constraints on mesh-executed logic.
+* Revoke or reroute assets via DAG re-signing.
+* Audit version history across CANP lineage.
 
 ---
 
-## 🧩 Future Considerations
+## 6. Future Considerations
 
-| Feature | Description |
-|--------|-------------|
-| DAG Rollbacks | Ability to revoke and rollback compromised asset chains |
-| Auto-Signing Relay | Relays that automatically sign trusted asset emissions |
-| Mesh-Aware Key Rotation | Periodic cryptographic material updates across mesh |
-| Public DAG Registry | Global trust chain indexing & transparency portal |
+| Feature                 | Description                                                |
+| ----------------------- | ---------------------------------------------------------- |
+| DAG Rollbacks           | Ability to revoke and restore compromised chains.          |
+| Auto-Signing Relays     | Automated relays that sign and distribute trusted assets.  |
+| Mesh-Aware Key Rotation | Periodic key refresh synchronized across the mesh.         |
+| Public DAG Registry     | Global registry for trust chain indexing and transparency. |
 
 ---
 
-## ✨ Summary
+## 7. Strategic Value
 
-The `CANPManifest` provides an extensible trust container for every EchoCANP asset — securing identity, enforcing lineage, and preparing EchoMesh to support zero-trust, distributed computation environments.
+The CANPManifest establishes a **zero-trust, graph-native trust envelope** for asset distribution.
 
-> A manifest is not just metadata. It is **context, compressed into cryptographic form.**
+It enables enterprises to:
+
+* Guarantee asset integrity at scale.
+* Align access and trust with contextual lineage.
+* Extend IAM practices into **decentralized, cryptographic frameworks**.
+* Prepare systems for **distributed, verifiable computation environments**.
+
+---
+
+**Summary**
+The CANPManifest is not just metadata. It is a **cryptographic trust container** that binds asset identity, authorship, and lineage into a **verifiable context object** within EchoMesh.
+

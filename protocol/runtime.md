@@ -1,104 +1,116 @@
-EchoStack Runtime Protocol
+# Appendix: EchoStack Runtime Protocol
 
-From Dust we form. In ASh we execute. In EchoMesh we propagate. Through CANP we mean.
+## Executive Summary
 
-⸻
+The **EchoStack Runtime Protocol** is the execution layer for relational intelligence systems. It integrates **contextual memory, dynamic execution, decentralized propagation, and contextual asset resolution** into a single, trust-anchored framework.
 
-Overview
+Where traditional runtime environments focus on data processing, EchoStack focuses on **context enactment**, providing enterprises with a secure, scalable, and verifiable foundation for distributed intelligence.
 
-EchoStack is the runtime protocol stack for relational execution systems. It integrates four core components:
-	•	Dust — the contextual memory layer
-	•	ActiveShell (ASh) — the graph-executing interface
-	•	EchoMesh — the propagation and trust network
-	•	echoCANP — the contextual naming protocol
+---
 
-Together, they form a distributed, trust-anchored, relational intelligence engine.
+## Core Components
 
-⸻
+EchoStack unifies four key layers into a cohesive runtime stack:
 
-Layered Runtime Model
+| Layer                 | Component         | Purpose                                                               |
+| --------------------- | ----------------- | --------------------------------------------------------------------- |
+| **Substrate**         | Dust              | Immutable, trust-anchored memory layer for relational structures.     |
+| **Runtime Interface** | ActiveShell (ASh) | Execution layer for graph construction, querying, and transformation. |
+| **Mesh Network**      | EchoMesh          | Decentralized, presence-aware propagation and trust signaling.        |
+| **Resolution Engine** | echoCANP          | Contextual asset naming and semantic resolution via dotpath syntax.   |
 
-Layer	Component	Purpose
-Substrate	Dust	Extensible, trust-anchored memory layer storing relational structure
-Runtime Interface	ActiveShell	Execution layer for graph construction, querying, and transformation
-Mesh Network	EchoMesh	Decentralized, presence-aware propagation and signaling protocol
-Resolution Engine	echoCANP	Semantic asset resolution via dotpath syntax (context-as-structure)
+Together, these components form a **distributed relational intelligence engine**.
 
+---
 
-⸻
+## Dust – Contextual Memory Layer
 
-Dust — Contextual Memory Layer
+**Dust** serves as the trusted memory substrate. It provides:
 
-Dust provides a structured, versioned, and immutable data substrate:
-	•	Graph-encoded relationships and historical deltas
-	•	Hierarchical JSON + DAG anchoring for trust and timestamping
-	•	No file paths — only graph-anchored references
+* Graph-encoded relationships and historical deltas.
+* Hierarchical JSON + DAG anchoring for versioning and timestamping.
+* Graph-anchored references (no traditional file paths).
 
-Example Entry:
+**Example Entry:**
 
+```json
 {
   "id": "solar_system.earth.texture.jpg",
   "version": "refined",
   "stored_at": "assets/solar_system/earth/texture.jpg",
   "trust_anchor": "BananoBlock#44310"
 }
+```
 
+---
 
-⸻
+## ActiveShell (ASh) – Execution Interface
 
-ActiveShell (ASh) — Execution Interface
+**ActiveShell** extends native PowerShell capabilities for relational graph management.
 
-ActiveShell provides native PowerShell commands for relational graph management:
+**Core Commands**
 
-Core Commands
-	•	Create-ActiveGraph
-	•	Add-Node, Set-Node, Get-Node, Delete-Node
-	•	Create-Edge, Set-Edge, Get-Edge, Delete-Edge
-	•	Export-Graph, Import-Graph
+* `Create-ActiveGraph`
+* `Add-Node`, `Set-Node`, `Get-Node`, `Delete-Node`
+* `Create-Edge`, `Set-Edge`, `Get-Edge`, `Delete-Edge`
+* `Export-Graph`, `Import-Graph`
 
-Asset Operations
-	•	Get-Asset
-	•	Set-Asset
-	•	Get-AssetHistory
-	•	Get-AssetGroup
+**Asset Operations**
 
-Example
+* `Get-Asset`
+* `Set-Asset`
+* `Get-AssetHistory`
+* `Get-AssetGroup`
 
+**Example Usage:**
+
+```powershell
 Add-Node -NodeName "PharmacyC" -Type "Pharmacy" -Domain "Healthcare"
 Create-Edge -Source "PatientA" -Target "PharmacyC" -Relationship "GetsMedsFrom"
 Get-Asset solar_system.earth.texture
+```
 
+---
 
-⸻
+## EchoMesh – Propagation Protocol
 
-EchoMesh — Propagation Protocol
+**EchoMesh** manages decentralized trust and presence propagation.
 
-EchoMesh provides real-time presence, trust, and identity propagation:
-	•	Nodes declare Intent and verify Presence
-	•	Signal transmission is signed and logged via Trace
-	•	Supports governance tiers: field_civilian, op_civic, tactical_node
+Features include:
 
-Canonical Identity Pairs:
-	•	Intent / Presence
-	•	Input / Output
-	•	Anchor / Propagate
-	•	Proof / Consent
-	•	Signal / Trace
+* Node-declared **Intent** and **Presence** verification.
+* Signed and logged signal transmissions with traceability.
+* Governance tiers (e.g., `field_civilian`, `op_civic`, `tactical_node`).
 
-⸻
+**Canonical Identity Pairs:**
 
-echoCANP — Contextual Asset Naming Protocol
+* Intent / Presence
+* Input / Output
+* Anchor / Propagate
+* Proof / Consent
+* Signal / Trace
 
-CANP resolves references by graph context:
+---
 
+## echoCANP – Contextual Asset Naming Protocol
+
+**echoCANP** resolves assets and identities based on graph context.
+
+**Syntax:**
+
+```
 [protocol]://[domain].[context].[subcontext].[identifier].[extension]
+```
 
-Example
+**Example:**
 
+```
 dag://assets.solar_system.earth.texture.jpg
+```
 
-Resolution Logic
+**Resolution Logic (simplified):**
 
+```javascript
 function resolveEchoCANP(dotPath) {
   const parts = dotPath.split('.');
   const ext = parts.pop();
@@ -106,30 +118,32 @@ function resolveEchoCANP(dotPath) {
   const path = parts.join('/');
   return `${path}/${id}.${ext}`;
 }
+```
 
-Each dot is a graph edge. Each terminal node is an asset.
+Each **dot** represents a graph edge.
+Each **terminal node** resolves to an asset.
 
-⸻
+---
 
-Full Runtime Example
+## Full Runtime Example
 
+```powershell
 Create-ActiveGraph -GraphName "SimNet"
 Set-Asset nodes.esp32.lora.presence.init.json `
   -uri "https://github.com/echomesh/assets/init_packet.json"
 Invoke-EchoPresence -NodeID "esp32-Node-7" -Scope "medops.mesh"
 Anchor-State -From "CommandPi" -StateID "op_civic.v1"
+```
 
+---
 
-⸻
+## Summary
 
-Summary
+EchoStack provides enterprises with a **runtime model for relational intelligence**. It:
 
-EchoStack is a complete runtime model that:
-	•	Stores trusted context (Dust)
-	•	Executes structural operations (ASh)
-	•	Propagates intent and presence (EchoMesh)
-	•	Resolves meaning and identity (echoCANP)
+* Stores trusted context (**Dust**)
+* Executes structural operations (**ASh**)
+* Propagates intent and presence (**EchoMesh**)
+* Resolves meaning and identity (**echoCANP**)
 
-It is the runtime layer of Relational Intelligence.
-
-Where others process data, EchoStack enacts context.
+By anchoring runtime execution in trust, presence, and context, EchoStack enables a **next-generation approach to distributed intelligence systems**.

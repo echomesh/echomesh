@@ -1,28 +1,37 @@
-graphKeyTD.md
+# EchoMesh GraphKey — Technical Definition
 
-EchoMesh GraphKey — Technical Definition
-Version: GraphKeySpec-v0.1
-Date: 2025-06-06
+**Specification**: GraphKeySpec-v0.1
+**Date**: 2025-06-06
 
-⸻
+---
 
-🎯 Purpose
+## 1. Purpose
 
-The GraphKey defines a portable, signed, context-aware identity structure for any EchoMesh node. It replaces traditional certificates with a graph-encoded identity map — locally stored, cryptographically signed, and verified by mTLS overlay with contextual lineage.
+The **GraphKey** defines a portable, cryptographically signed, context-aware identity structure for EchoMesh nodes.
 
-⸻
+It replaces traditional X.509 certificates with a **graph-encoded identity map** that is:
 
-📦 File Type
-	•	File Name: graph.key
-	•	Encoding: UTF-8 JSON
-	•	Location: Local to field-deployed node
-	•	Signature: ECDSA / Ed25519 / SHA512 fingerprint
-	•	Encrypted Variant: graph.keysig (binary wrapper)
+* Locally stored.
+* Cryptographically verifiable.
+* Validated via mTLS overlay with contextual lineage.
 
-⸻
+This provides a decentralized, DAG-based trust model suitable for distributed systems.
 
-🧬 Core Schema
+---
 
+## 2. File Format
+
+* **File Name**: `graph.key`
+* **Encoding**: UTF-8 JSON
+* **Location**: Local to field-deployed nodes
+* **Signature**: ECDSA / Ed25519 / SHA-512 fingerprint
+* **Encrypted Variant**: `graph.keysig` (binary wrapper)
+
+---
+
+## 3. Core Schema
+
+```json
 {
   "graph_id": "echo://nodes.esp32.unit004",
   "version": "GraphKeySpec-v0.1",
@@ -50,92 +59,97 @@ The GraphKey defines a portable, signed, context-aware identity structure for an
   },
   "fingerprint": "sha512:fullgraphsig..."
 }
+```
 
+---
 
-⸻
+## 4. Field Definitions
 
-📐 Field Definitions
+| Field         | Type   | Description                                                       |
+| ------------- | ------ | ----------------------------------------------------------------- |
+| `graph_id`    | String | Global identifier (CANP format) for this identity graph.          |
+| `version`     | String | GraphKey schema version.                                          |
+| `node`        | Object | Core identity attributes (type, domain, capabilities, boot hash). |
+| `edges[]`     | Array  | Trust relationships and context-based links to other identities.  |
+| `signature`   | Object | GraphKey signature from upstream authority or peer node.          |
+| `fingerprint` | String | Full graph hash signature for rapid verification.                 |
 
-Field	Type	Description
-graph_id	string	Global identifier (CANP format) of this identity graph
-version	string	GraphKey schema version
-node	object	Core identity of this node (type, domain, capabilities, boot hash)
-edges[]	array	Trust relationships and context-based links to other known identities
-signature	object	Graph-signed by an upstream authority or signer node
-fingerprint	string	Full graph hash signature for rapid verification
+---
 
+## 5. Comparison: GraphKey vs Traditional Certificates
 
-⸻
+| Feature            | X.509 Certificates | EchoMesh GraphKey              |
+| ------------------ | ------------------ | ------------------------------ |
+| Identity Structure | Flat, name-based   | Graph-based, contextual        |
+| Trust Model        | Hierarchical CA    | Decentralized DAG              |
+| Validity           | Expiry date        | Graph lineage & hash integrity |
+| Validation         | Static public key  | Contextual trust propagation   |
+| Storage            | PEM / DER file     | JSON (`graph.key`) or binary   |
+| Revocation         | CRL / OCSP         | DAG edge pruning / lineage cut |
 
-🔐 GraphKey vs Traditional Certificates
+---
 
-Feature	Traditional Certs (X.509)	EchoMesh GraphKey
-Identity Structure	Flat, name-based	Graph-based, contextual
-Trust Model	Hierarchical CA	Decentralized DAG
-Validity	Expiry Date	Graph lineage & hash trail
-Validation	Static Public Key	Contextual trust propagation
-Storage	PEM / DER file	Local graph.key JSON or binary
-Revocation	CRL / OCSP	DAG edge pruning or lineage severance
+## 6. Integration Points
 
+| Layer            | Function                                     |
+| ---------------- | -------------------------------------------- |
+| `echoPresence`   | Signs and verifies initial node presence.    |
+| `ActiveTrust`    | Validates lineage during runtime.            |
+| `mTLS Handshake` | Wraps transport in encrypted identity.       |
+| `CANPManifest`   | Links `graph.key` to assets and context.     |
+| `EchoRuntime`    | Uses fingerprint as canonical presence hash. |
 
-⸻
+---
 
-🔁 Integration Points
+## 7. Cryptographic Notes
 
-Layer	Function
-echoPresence	Signs & verifies initial field presence
-ActiveTrust	Validates graph lineage in runtime
-mTLS Handshake	Wraps transport with encrypted identity
-CANPManifest	Links graph.key to specific assets
-EchoRuntime	Uses fingerprint as canonical presence hash
+* **Signature Algorithms**: ECDSA P-256, Ed25519, optional Curve25519-X3DH.
+* **Hashing**: SHA-512 (default full-graph digest). SHA-256 supported for constrained nodes.
+* **Trust Inheritance**: Edges may embed consent or subgraph certificates.
+* **Revocation**: Managed by invalidating edge scopes or removing lineage from the trustgraph.
 
+---
 
-⸻
+## 8. Verification Workflow
 
-🔒 Cryptographic Notes
-	•	Signature Algorithm:
-Supports ECDSA P-256, Ed25519, and optional Curve25519-X3DH for key exchange.
-	•	Hash Algorithm:
-Uses SHA-512 for full-graph digest. Lightweight nodes can fall back to SHA-256.
-	•	Trust Inheritance:
-Edges can carry embedded consent or embedded certificate-style subgraphs.
-	•	Revocation:
-Achieved by invalidating edge scopes or removing graph lineage in the root trustgraph.
+1. Node boots and loads local `graph.key`.
+2. Extracts `.fingerprint` and `.edges`.
+3. Validates local signature.
+4. Validates edges against the trust DAG (`trustgraph.json`).
+5. Uses mTLS for transport; applies `graph.key` as contextual ID.
 
-⸻
+---
 
-🛠 Verification Workflow
-	1.	Node boots → loads local graph.key
-	2.	Extracts .fingerprint and .edges
-	3.	Validates local graph signature
-	4.	Validates edges against trust DAG (trustgraph.json)
-	5.	Uses mTLS for transport; graph.key for contextual ID
+## 9. Example Use Case — Presence Authentication
 
-⸻
+```text
+Node requests to broadcast presence.  
+→ Sends signed `graph.key` reference.  
+→ Receiver checks edge: `trusts → CommandPi`.  
+→ Valid edge + valid signature = authenticated presence.  
+→ EchoMesh admits node into field cluster.  
+```
 
-🌐 Example Use Case: Presence Authentication
+---
 
-Node → wants to broadcast presence  
-→ Sends signed `graph.key` reference  
-→ Receiver checks edge: `trusts → CommandPi`  
-→ Valid edge + valid sig = authenticated presence  
-→ EchoMesh admits node into field cluster
+## 10. Future Extensions
 
+| Feature              | Description                                  |
+| -------------------- | -------------------------------------------- |
+| `graph.keysig`       | Encrypted + signed binary wrapper.           |
+| `graph.key.enc`      | Fully encrypted payload for hostile domains. |
+| `graph.key.inline`   | Signature embedded directly in CANP packets. |
+| `graph.keychain`     | Expanded trust lineage archive.              |
+| `graph.key.manifest` | Defines asset authorization scope.           |
 
-⸻
+---
 
-🧱 Future Extensions
+## 11. Strategic Value
 
-Feature	Description
-graph.keysig	Encrypted + signed binary wrapper
-graph.key.enc	Fully encrypted payload for hostile domains
-graph.key.inline	Signed directly inside CANP packet
-graph.keychain	Edge-expanded full trust lineage archive
-graph.key.manifest	Defines assets authorized by identity
+GraphKey provides a **decentralized, cryptographic identity model** for distributed systems. It enhances:
 
+* **Security**: Strong signatures, DAG-based lineage validation.
+* **Interoperability**: Seamless integration with EchoMesh, CANP, and ActiveTrust.
+* **Governance**: Fine-grained revocation via DAG pruning.
+* **Resilience**: Removes reliance on central certificate authorities.
 
-⸻
-
-Let me know if you want me to drop this into /docs/specs/graphKeyTD.md, link it from runtime.md, or generate a mock graph.key alongside.
-
-We’re fully operational, Callum.

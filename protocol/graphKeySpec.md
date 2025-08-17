@@ -1,28 +1,35 @@
-# `graphKeyTD.md`
+# EchoMesh GraphKey — Technical Definition
 
-**EchoMesh GraphKey — Technical Definition**
-Version: `GraphKeySpec-v0.1`
-Date: `2025-06-06`
-
----
-
-## 🎯 Purpose
-
-The **GraphKey** defines a portable, signed, context-aware identity structure for any EchoMesh node. It replaces traditional certificates with a **graph-encoded identity map** — locally stored, cryptographically signed, and verified by mTLS overlay with contextual lineage.
+**Specification**: GraphKeySpec-v0.1
+**Date**: 2025-06-06
 
 ---
 
-## 📦 File Type
+## 1. Purpose
+
+The **GraphKey** defines a portable, cryptographically signed, and context-aware identity structure for EchoMesh nodes.
+
+Unlike traditional X.509 certificates, GraphKey introduces a **graph-encoded identity map**, locally stored and verified through:
+
+* **Cryptographic signatures** (ECDSA / Ed25519).
+* **mTLS overlay validation**.
+* **Contextual lineage tracking** within a trust DAG.
+
+This approach enables **decentralized, relational trust** across distributed systems.
+
+---
+
+## 2. File Format
 
 * **File Name**: `graph.key`
 * **Encoding**: UTF-8 JSON
-* **Location**: Local to field-deployed node
-* **Signature**: ECDSA / Ed25519 / SHA512 fingerprint
+* **Location**: Local to each deployed node
+* **Signature**: ECDSA / Ed25519, SHA-512 fingerprint
 * **Encrypted Variant**: `graph.keysig` (binary wrapper)
 
 ---
 
-## 🧬 Core Schema
+## 3. Core Schema
 
 ```json
 {
@@ -56,90 +63,107 @@ The **GraphKey** defines a portable, signed, context-aware identity structure fo
 
 ---
 
-## 📐 Field Definitions
+## 4. Field Definitions
 
-| Field         | Type     | Description                                                           |
-| ------------- | -------- | --------------------------------------------------------------------- |
-| `graph_id`    | `string` | Global identifier (CANP format) of this identity graph                |
-| `version`     | `string` | GraphKey schema version                                               |
-| `node`        | `object` | Core identity of this node (type, domain, capabilities, boot hash)    |
-| `edges[]`     | `array`  | Trust relationships and context-based links to other known identities |
-| `signature`   | `object` | Graph-signed by an upstream authority or signer node                  |
-| `fingerprint` | `string` | Full graph hash signature for rapid verification                      |
-
----
-
-## 🔐 GraphKey vs Traditional Certificates
-
-| Feature            | Traditional Certs (X.509) | EchoMesh GraphKey                     |
-| ------------------ | ------------------------- | ------------------------------------- |
-| Identity Structure | Flat, name-based          | Graph-based, contextual               |
-| Trust Model        | Hierarchical CA           | Decentralized DAG                     |
-| Validity           | Expiry Date               | Graph lineage & hash trail            |
-| Validation         | Static Public Key         | Contextual trust propagation          |
-| Storage            | PEM / DER file            | Local `graph.key` JSON or binary      |
-| Revocation         | CRL / OCSP                | DAG edge pruning or lineage severance |
+| Field         | Type   | Description                                                           |
+| ------------- | ------ | --------------------------------------------------------------------- |
+| `graph_id`    | String | Global identifier of the identity graph (CANP format).                |
+| `version`     | String | Schema version of the GraphKey specification.                         |
+| `node`        | Object | Core identity attributes (ID, type, domain, capabilities, boot hash). |
+| `edges[]`     | Array  | Trust relationships and contextual links to other nodes.              |
+| `signature`   | Object | GraphKey signed by an upstream authority or peer node.                |
+| `fingerprint` | String | Full graph hash signature for rapid verification.                     |
 
 ---
 
-## 🔁 Integration Points
+## 5. Comparison: GraphKey vs Traditional Certificates
 
-| Layer            | Function                                    |
-| ---------------- | ------------------------------------------- |
-| `echoPresence`   | Signs & verifies initial field presence     |
-| `ActiveTrust`    | Validates graph lineage in runtime          |
-| `mTLS Handshake` | Wraps transport with encrypted identity     |
-| `CANPManifest`   | Links `graph.key` to specific assets        |
-| `EchoRuntime`    | Uses fingerprint as canonical presence hash |
+| Feature            | X.509 Certificates | EchoMesh GraphKey                     |
+| ------------------ | ------------------ | ------------------------------------- |
+| Identity Structure | Flat, name-based   | Graph-based, contextual               |
+| Trust Model        | Hierarchical CA    | Decentralized DAG                     |
+| Validity           | Expiry date        | Graph lineage and hash integrity      |
+| Validation         | Static public key  | Contextual trust propagation          |
+| Storage            | PEM/DER file       | Local JSON (`graph.key`) or binary    |
+| Revocation         | CRL / OCSP         | DAG edge pruning or lineage severance |
 
 ---
 
-## 🔒 Cryptographic Notes
+## 6. Integration Points
 
-* **Signature Algorithm**:
-  Supports `ECDSA P-256`, `Ed25519`, and optional `Curve25519-X3DH` for key exchange.
+| Layer              | Function                                           |
+| ------------------ | -------------------------------------------------- |
+| **echoPresence**   | Signs and verifies initial node presence.          |
+| **ActiveTrust**    | Validates graph lineage during runtime operations. |
+| **mTLS Handshake** | Secures transport layer with encrypted identity.   |
+| **CANPManifest**   | Links GraphKey to specific assets and contexts.    |
+| **EchoRuntime**    | Uses fingerprint as the canonical presence hash.   |
 
-* **Hash Algorithm**:
-  Uses `SHA-512` for full-graph digest. Lightweight nodes can fall back to `SHA-256`.
+---
+
+## 7. Cryptographic Considerations
+
+* **Signature Algorithms**:
+
+  * ECDSA P-256
+  * Ed25519
+  * Optional Curve25519-X3DH (for key exchange).
+
+* **Hash Algorithms**:
+
+  * SHA-512 (default, full-graph digest).
+  * SHA-256 (fallback for constrained devices).
 
 * **Trust Inheritance**:
-  Edges can carry embedded consent or embedded certificate-style subgraphs.
+
+  * Edges can embed consent or subgraphs (certificate-style).
 
 * **Revocation**:
-  Achieved by invalidating edge scopes or removing graph lineage in the root `trustgraph`.
+
+  * Handled by pruning edges or removing lineage within the root trustgraph.
 
 ---
 
-## 🛠 Verification Workflow
+## 8. Verification Workflow
 
-1. Node boots → loads local `graph.key`
-2. Extracts `.fingerprint` and `.edges`
-3. Validates local graph signature
-4. Validates edges against trust DAG (`trustgraph.json`)
-5. Uses mTLS for transport; `graph.key` for contextual ID
+1. Node boots and loads local `graph.key`.
+2. Extracts `.fingerprint` and `.edges`.
+3. Validates local graph signature.
+4. Validates edges against trust DAG (`trustgraph.json`).
+5. Wraps transport in mTLS using `graph.key` as contextual identity.
 
 ---
 
-## 🌐 Example Use Case: Presence Authentication
+## 9. Example: Presence Authentication
 
 ```text
-Node → wants to broadcast presence  
-→ Sends signed `graph.key` reference  
-→ Receiver checks edge: `trusts → CommandPi`  
-→ Valid edge + valid sig = authenticated presence  
-→ EchoMesh admits node into field cluster
+Node requests to broadcast presence.  
+→ Sends signed `graph.key` reference.  
+→ Receiver checks edge: `trusts → CommandPi`.  
+→ Valid edge + valid signature = authenticated presence.  
+→ EchoMesh admits node into the cluster.  
 ```
 
 ---
 
-## 🧱 Future Extensions
+## 10. Future Extensions
 
-| Feature              | Description                                 |
-| -------------------- | ------------------------------------------- |
-| `graph.keysig`       | Encrypted + signed binary wrapper           |
-| `graph.key.enc`      | Fully encrypted payload for hostile domains |
-| `graph.key.inline`   | Signed directly inside CANP packet          |
-| `graph.keychain`     | Edge-expanded full trust lineage archive    |
-| `graph.key.manifest` | Defines assets authorized by identity       |
+| Feature              | Description                                              |
+| -------------------- | -------------------------------------------------------- |
+| `graph.keysig`       | Encrypted + signed binary wrapper.                       |
+| `graph.key.enc`      | Fully encrypted payload for deployment in hostile zones. |
+| `graph.key.inline`   | Inline signature embedded within CANP packets.           |
+| `graph.keychain`     | Expanded edge lineage archive for trust inheritance.     |
+| `graph.key.manifest` | Declares assets authorized by node identity.             |
 
 ---
+
+## 11. Strategic Value
+
+GraphKey provides enterprises with a **flexible, decentralized identity framework** that enhances:
+
+* **Security**: Strong cryptographic primitives, tamper-resistant lineage.
+* **Interoperability**: Seamless integration with EchoMesh, ActiveTrust, and CANP.
+* **Governance**: Fine-grained trust control via DAG edge pruning.
+* **Resilience**: Distributed verification eliminates reliance on central CAs.
+
