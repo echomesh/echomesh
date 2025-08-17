@@ -1,49 +1,94 @@
+# EchoMesh – Field Report v0.6-α
+
 ![License](https://img.shields.io/badge/CC--BY--NC--SA%204.0-lightgrey)
 
-<img src="https://github.com/user-attachments/assets/77623aa2-5930-45ec-87ae-1c2cd0e2533c" width="100" height="100" alt="image"/>
+<img src="https://github.com/user-attachments/assets/77623aa2-5930-45ec-87ae-1c2cd0e2533c" width="100" height="100" alt="EchoMesh logo"/>  
 
+---
 
+## Executive Summary
+
+**EchoMesh** is a sovereign, lightweight communications capability designed to maintain human and system connectivity in environments where conventional infrastructure has failed or is unavailable. Built on **ESP32-SX1262 LoRa hardware** with solar/portable power options, EchoMesh provides a **field-resilient, policy-aligned alternative** to dependency on centralised or black-box communications platforms.
+
+* **Origin:** Australia – independently developed Tier-1 capability
+* **Mission:** Preserve operational continuity when towers or networks collapse
+* **Status:** Operational; core mesh verified 2025-05-31
+
+---
+
+## System Architecture
+
+### Core Stack
+
+| Layer | Module    | Functionality                                                 |
+| ----- | --------- | ------------------------------------------------------------- |
+| L1    | RF        | LoRa 22 dBm (fallback BLE / Wi-Fi)                            |
+| L2    | echoNet   | Self-forming mesh with adaptive lane tables                   |
+| L3    | echoMSG   | Directed acyclic graph (DAG)-signed payloads ≤ 256 B          |
+| L4    | echoVault | X25519 identities, AES-GCM envelopes, reputation-weighted ACL |
+| L5    | echoMap   | Optional GPS beaconing for presence mapping                   |
+| L6    | echoCtrl  | Command-line & WebSerial administration                       |
+
+---
+
+## Deployment Quickstart
+
+```bash
+git clone https://github.com/echomesh/echomesh
+cd echomesh/firmware
+pio run -t upload -e heltec_lora32
 ```
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃  E C H O M E S H   –   F I E L D   R E P O R T   v0.6-α       ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-Origin        : AU – “bush-built Tier-1 capability”
-Mission       : Keep humans talking when towers die
-Hardware      : ESP32-SX1262 915 MHz  /  Li-ion / solar
-Status        : OPERATIONAL – core mesh verified 2025-05-31
 
-┌─ CORE STACK ───────────────────────────────────────────────────┐
-│ L1  RF       : LoRa 22 dBm (fallback BLE / Wi-Fi)              │
-│ L2  echoNet  : Self-forming mesh, 7-sequence lane table        │
-│ L3  echoMSG  : DAG-signed payloads  ≤ 256 B                    │
-│ L4  echoVault: X25519 IDs, AES-GCM envelopes, rep-weighted ACL │
-│ L5  echoMap  : GPS beacon (optional)                           │
-│ L6  echoCtrl : CLI / WebSerial  → node admin                   │
-└────────────────────────────────────────────────────────────────┘
+→ Device boots, broadcasts presence, and joins mesh within **< 5 seconds**.
 
-┌─ QUICKSTART ───────────────────────────────────────────────────┐
-│ $ git clone https://github.com/echomesh/echomesh              │
-│ $ cd echomesh/firmware                                        │
-│ $ pio run -t upload -e heltec_lora32                          │
-│ → Boots, broadcasts presence, joins mesh in <5 s              │
-└────────────────────────────────────────────────────────────────┘
+---
 
-┌─ FIELD METRICS (2025-05) ──────────────────────────────────────┐
-│ Range (10 dBi)            3.4 km NLOS                         │
-│ Cold-boot mesh join       480 ms                               │
-│ Idle / TX current         19 mA / 110 mA                      │
-│ Clones (30 May spike)     35 (24 unique)                      │
-└────────────────────────────────────────────────────────────────┘
+## Field Metrics (May 2025)
 
-USE-CASES
-  • Paramedic strike teams          • Off-grid homesteads
-  • Mutual-aid collectives          • Disaster comms pods
-  • Rapid-deployed sensor nets      • Mesh-native IoT
+| Metric                   | Result                |
+| ------------------------ | --------------------- |
+| Range (10 dBi antenna)   | 3.4 km NLOS           |
+| Cold-boot mesh join      | 480 ms                |
+| Current (Idle / TX)      | 19 mA / 110 mA        |
+| Node deployment (30 May) | 35 clones (24 unique) |
 
-ROADMAP ► CLI flasher • Web echoMap • signed OTA • federation bridge
+---
 
-“ When all you have left is your voice — let it echo. ”
+## Use Cases
 
-Contact  : callum@echomesh.agency   |  License : CC-BY-NC-SA 4.0
+* **Disaster response pods**
+* **Paramedic and strike teams**
+* **Off-grid homesteads / remote operations**
+* **Mutual-aid or resilience collectives**
+* **Rapid-deployed sensor networks**
+* **Mesh-native IoT ecosystems**
 
-EchoMesh and the Presence Mesh doctrine represent an independent scientific contribution to sovereign capability orchestration. Designed in alignment with ADF and ITAR policy, it provides a structured alternative to complex black-box systems, reducing strategic dependency, and enabling field-resilient telemetry without compromising platform integrity.
+---
+
+## Roadmap
+
+* Streamlined CLI flasher
+* Web-based echoMap interface
+* Digitally signed OTA updates
+* Federation bridge for cross-mesh interoperability
+
+---
+
+## Strategic Context
+
+EchoMesh and the **Presence Mesh doctrine** represent an independent Australian scientific and engineering contribution to sovereign capability orchestration.
+
+The system has been:
+
+* **Designed in alignment** with **ADF** (Australian Defence Force) and **ITAR** compliance considerations
+* **Structured to reduce strategic dependency** on opaque, foreign-sourced communications platforms
+* **Optimised for field resilience**, ensuring telemetry and coordination remain intact even under degraded or contested network conditions
+
+---
+
+## Contact
+
+* 📧 **Email:** [callum@echomesh.agency](mailto:callum@echomesh.agency)
+* 📜 **License:** [CC-BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+> *“When all you have left is your voice — let it echo.”*
