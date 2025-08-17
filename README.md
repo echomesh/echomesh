@@ -23,6 +23,10 @@ Where legacy approaches rely on closed, centralised infrastructure, EchoMesh is 
 
 ---
 
+**Commitment to Enterprise-Grade Delivery**
+EchoMesh represents the transition of our research from exploratory prototypes into a mature, enterprise-ready capability. While early-stage repositories captured raw innovation, this repository embodies our refined engineering cadence: governed, security-aligned, and strategically structured. Our focus is now on delivering sovereign, field-resilient communications that meet the standards of enterprise and government partners, while continuing to innovate responsibly behind the curtain.
+
+---
 
 ## System Architecture
 
