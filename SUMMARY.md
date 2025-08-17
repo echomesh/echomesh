@@ -45,12 +45,3 @@
 ## 7 — Assets (`/docs/assets`)
 - Auto-rendered Mermaid → PNG  
 - High-res white-board photos (original refs)
-
----
-
-### How to extend
-1. Add a page? → create the Markdown then reference it here.  
-2. Add a diagram? → place the `.mmd` in `docs/overview/` (or protocol folder) and the PNG in `docs/assets/`.  
-3. Keep this index alphabetized / section-ordered so new contributors never get lost.
-
-*Locked & loaded — next up: populate **NTSP.md**.* 🚀
